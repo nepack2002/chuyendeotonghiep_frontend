@@ -17,7 +17,7 @@
           {{ item.date || "Không có ngày" }}
         </p>
         <button
-          @click="downloadFile('tt.docx')"
+          @click="downloadFile(item.context)"
           class="bg-color-primary-2 rounded-lg text-white text-sm flex gap-2 items-center py-[5px] px-4 flex-1 justify-center"
         >
           <img src="@/assets/images/import.svg" alt="Icon" class="max-md:h-3" />

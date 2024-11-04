@@ -29,7 +29,7 @@
     </div>
     <div class="pt-5 text-center flex items-center gap-4 justify-center">
       <button
-        class="w-[50%] py-10px max-md:py-[9px] bg-color-white border border-color-primary-2 rounded-lg"
+        class="w-[50%] py-10px max-md:py-[9px] bg-color-white border border-color-primary-2 rounded-lg cursor-pointer"
       >
         <p
           class="max-md:text-font14 text-color-primary-2 text-base font-semibold"
@@ -43,7 +43,7 @@
         @click="handleSubmit"
         
       >
-        <p class="max-md:text-[14px] text-color-white text-base font-semibold">
+        <p class="max-md:text-[14px] text-color-white text-base font-semibold cursor-pointer">
           Gửi kết quả
         </p>
       </div>
