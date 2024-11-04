@@ -120,7 +120,7 @@
                   </div>
               </div>
                 <ChevronUpIcon
-                    :class="open ? 'rotate-180 transform' : ''"
+                    :class="open ? 'rotate-180 transform' : '  '"
                     class="h-5 w-5 text-color-gray"
                 />
                 </DisclosureButton>
