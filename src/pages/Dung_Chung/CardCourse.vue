@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-color-white rounded-lg shadow-continue">
+  <a :href="`/course-detail/${slug}`" class="bg-color-white rounded-lg shadow-continue cursor-pointer">
     <div class="relative">
       <img
         src="@/assets/images/image-recomment.jpg"
@@ -17,7 +17,7 @@
         <p
           class="text-base max-md:text-font14 font-medium text-color-primary-2 bg-color-primary-4 px-3 py-1 rounded-[100px] line-clamp-1"
         >
-          {{ topic}}
+          {{ topic }}
         </p>
         <div class="flex justify-center items-center gap-1">
           <p
@@ -53,17 +53,12 @@
               class="h-4 w-auto"
             />
           </div>
-          <!-- <p class="text-color-gray text-base font-normal max-md:text-font14">
-            ({{ reviewsCount }})
-            (12,425)
-          </p> -->
         </div>
       </div>
       <p class="text-font18 max-md:text-base font-bold text-color-primary pt-2">
         {{ name }}
       </p>
       <div class="flex justify-start items-center gap-2 py-3 max-md:pb-2">
-     
         <p class="font-medium text-base text-color-primary max-md:text-font14">
           {{ studentCount }} học viên tham gia
         </p>
@@ -109,17 +104,21 @@
         </div>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
 export default {
   props: {
-    // imageSrc: {
-    //   type: String,
-    //   required: true
-    // },
+    imageSrc: {
+      type: String,
+      required: true,
+    },
     name: {
+      type: String,
+      required: true,
+    },
+    slug: {
       type: String,
       required: true,
     },

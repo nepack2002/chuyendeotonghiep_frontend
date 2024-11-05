@@ -7,6 +7,7 @@
       <CardCourse
         v-for="item in courses"
         key="item.id"
+        :slug="item.slug"
         :topic="item.topic.name"
         :name="item.name"
         :studentCount="item.studentCount"

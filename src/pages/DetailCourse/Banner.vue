@@ -24,21 +24,23 @@ const open = ref(false);
           <div
             class="flex items-center justify-start gap-2 py-4 max-lg:py-1 max-lg:gap-1"
           >
-            <p
+            <RouterLink
+            href="/"
               class="text-color-text-breakcurmb text-font14 font-normal max-lg:text-xs cursor-pointer"
             >
               Trang chủ
-            </p>
+            </RouterLink>
             <img
               src="@/assets/images/arrow-square-right.svg"
               alt="Icon"
               class="max-lg:h-[8px]"
             />
-            <p
+            <RouterLink
+            href="/dao-tao/khoa-hoc"
               class="text-color-text-breakcurmb text-font14 font-normal max-lg:text-xs"
             >
               Khoá học
-            </p>
+            </RouterLink>
             <img
               src="@/assets/images/arrow-square-right.svg"
               alt="Icon"

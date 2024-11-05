@@ -47,12 +47,13 @@
             @change="filterByCategory"
             class="py-2 px-3 border border-color-border w-full rounded-md focus:outline-none max-md:text-sm max-md:px-2 max-md:py-[10px]"
           >
+             <option value="">Tất cả</option>
             <option
               v-for="category in categories"
-              :key="category"
-              :value="category"
+              :key="category.name"
+              :value="category.id"
             >
-              {{ category }}
+              {{ category.name }}
             </option>
           </select>
         </div>
@@ -81,13 +82,14 @@ export default {
   data() {
     return {
       activeTab: "myCompetitions",
-      selectedCategory: "Tất cả",
+      selectedCategory: "",
       searchQuery: "", // Biến lưu từ khóa tìm kiếm
     };
   },
   methods: {
     selectTab(tab) {
       this.activeTab = tab;
+      console.log(tab);
       this.$emit("tabSelected", tab);
     },
     filterByCategory() {
