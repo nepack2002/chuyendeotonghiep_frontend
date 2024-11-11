@@ -233,13 +233,15 @@ input[type="radio"] {
 }
 
 input[type="radio"]:is(.is_true, .is_true-gray, .is_false) {
-  @apply checked:border-none checked:after:border-none;
+  @apply checked:border-none checked:after:border-none after:border-none border-none;
 }
 
 input[type="radio"].is_true {
   @apply checked:after:bg-check-ok checked:after:bg-[url('@/assets/icon/Tick-checkbox.svg')] checked:bg-check-ok disabled:border-check-ok disabled:after:bg-check-ok disabled:checked:after:bg-check-ok after:border-check-ok bg-check-ok;
 }
-
+input[type="checkbox"]:not(.sr-only).is_true {
+  @apply checked:after:bg-check-ok checked:after:bg-[url('@/assets/icon/Tick-checkbox.svg')] checked:bg-check-ok disabled:border-check-ok disabled:after:bg-check-ok disabled:checked:after:bg-check-ok after:border-check-ok bg-check-ok;
+}
 input[type="radio"].is_warning {
   @apply after:bg-[url('@/assets/Tick-checkbox.svg')] checked:after:bg-cam checked:bg-cam disabled:border-cam disabled:after:bg-cam disabled:checked:after:bg-cam after:border-cam bg-cam;
 }
@@ -257,21 +259,19 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:not(.sr-only) {
-  @apply relative rounded overflow-hidden appearance-none border-2 border-[#969DB8] after:absolute after:left-0 after:top-0 after:h-full after:w-full after:border-primary-brand after:bg-[url('@/assets/icon/Tick-checkbox.svg')] after:bg-[length:10px] after:bg-center after:bg-no-repeat after:content-[''] checked:border-none checked:bg-primary-brand focus:outline-none disabled:after:bg-white disabled:checked:after:bg-back1;
+  @apply relative rounded overflow-hidden appearance-none border-2 border-[#969DB8] after:absolute after:left-0 after:top-0 after:h-full after:w-full after:border-primary-brand  after:bg-[length:10px] after:bg-center after:bg-no-repeat after:content-[''] checked:border-none checked:bg-primary-brand disabled:checked:bg-check-ok focus:outline-none
 }
 
 input[type="checkbox"]:not(.sr-only).is_warning {
   @apply checked:bg-cam disabled:bg-cam disabled:after:bg-cam disabled:checked:after:bg-cam border-cam;
 }
 
-input[type="checkbox"]:not(.sr-only).is_true {
-  @apply checked:bg-check-ok disabled:bg-check-ok disabled:after:bg-check-ok disabled:checked:after:bg-check-ok border-check-ok;
-}
+
 
 input[type="checkbox"]:not(.sr-only).is_true-gray {
   @apply checked:bg-input-blue-gray disabled:bg-input-blue-gray disabled:after:bg-input-blue-gray disabled:checked:after:bg-input-blue-gray border-input-blue-gray;
 }
 
 input[type="checkbox"]:not(.sr-only).is_false {
-  @apply after:bg-[url('@/assets/xmark-solid.svg')] checked:bg-light-warning disabled:bg-light-warning disabled:after:bg-light-warning disabled:checked:after:bg-light-warning border-light-warning;
+  @apply after:bg-[url('@/assets/icon/xmark-solid.svg')] checked:after:bg-light-warning checked:bg-light-warning disabled:border-light-warning disabled:after:bg-[url('@/assets/icon/xmark-solid.svg')] disabled:checked:after:bg-light-warning after:border-light-warning bg-light-warning;
 }

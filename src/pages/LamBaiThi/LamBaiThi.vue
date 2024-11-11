@@ -1,6 +1,39 @@
+<template>
+  <div class="md:py-8">
+    <div
+      class="bg-white container pt-[10px] py-3 border-b border-color-border lg:hidden relative"
+    >
+      <!-- Nội dung và thông tin -->
+    </div>
+    <div class="lg:container mx-auto">
+      <form @submit.prevent="onSubmit">
+        <div class="lg:grid grid-cols-4 gap-3 max-sm:grid-cols-1">
+          <div class="col-span-3 max-sm:col-span-1 max-sm:order-2">
+            <CauHoi
+              :dataQuestion="dataQuestion"
+              @updateSelectedAnswers="updateSelectedAnswers"
+            />
+          </div>
+          <div
+            class="bg-white rounded-lg p-3 max-sm:order-1 max-md:hidden h-fit sticky top-8"
+          >
+            <ThoiGian
+              :dataQuestion="dataQuestion"
+              :selectedAnswers="selectedAnswers"
+              @submitExam="onSubmit"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
 <script>
+import axios from "axios";
 import CauHoi from "./CauHoi.vue";
 import ThoiGian from "./ThoiGian.vue";
+
 export default {
   components: {
     CauHoi,
@@ -8,83 +41,64 @@ export default {
   },
   data() {
     return {
-      "dataQuestion": [
-        {
-          "id": 82,
-          "name": "Choose the even numbers",
-          "type": "checkbox",
-          "choice": [
-            "1",
-            "2",
-            "3",
-            "4"
-          ]
-        },
-        {
-          "id": 69,
-          "name": "What is the capital of France?",
-          "type": "radio",
-          "choice": [
-            "Paris",
-            "London",
-            "Berlin"
-          ]
-        },
-        {
-          "id": 81,
-          "name": "What is the capital of France?",
-          "type": "radio",
-          "choice": [
-            "Paris",
-            "London",
-            "Berlin"
-          ]
+      dataQuestion: [],
+      selectedAnswers: {},
+      id: null,
+    };
+  },
+  methods: {
+    async fetchQuestions() {
+      const testId = this.$route.params.id;
+      try {
+        const response = await axios.get(`/exam/detail-result/${testId}`);
+        this.dataQuestion = response.data.data.detailResult || [];
+        this.id = response.data.data.id;
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    },
+    updateSelectedAnswers({ questionId, choice, type }) {
+      if (type === "radio") {
+        this.selectedAnswers[questionId] = choice;
+      } else if (type === "checkbox") {
+        if (!this.selectedAnswers[questionId]) {
+          this.selectedAnswers[questionId] = [];
         }
-        ]
-    }
-  }
-}
-</script>
+        const answers = this.selectedAnswers[questionId];
+        const index = answers.indexOf(choice);
+        if (index > -1) {
+          answers.splice(index, 1);
+        } else {
+          answers.push(choice);
+        }
+      }
+    },
+    async onSubmit() {
+      const answersArray = this.dataQuestion.map((question) => {
+        const questionId = question.id;
+        const answer = this.selectedAnswers[questionId]
+          ? Array.isArray(this.selectedAnswers[questionId])
+            ? this.selectedAnswers[questionId]
+            : [this.selectedAnswers[questionId]]
+          : [];
+        return { id: questionId, selectedAns: answer };
+      });
 
-<template>
-  <div class="md:py-8">
-    <div
-      class="bg-white container pt-[10px] py-3 border-b border-color-border lg:hidden relative"
-    >
-      <div class="flex mb-1">
-        <p class="text-font18 font-semibold text-color-primary mb-2">
-          Cuộc thi an toàn thông tin quý I năm 2024
-        </p>
-        <router-link :to="{ name: 'KhaoSat' }">
-          <img
-            src="@/assets/images/Cancel.svg"
-            alt="Icon"
-            class="w-6 h-6 absolute top-3 right-4"
-          />
-        </router-link>
-      </div>
-      <div class="flex justify-between">
-        <div>
-          <p class="text-font14 text-color-gray mb-1">Số điểm cần đạt:</p>
-          <p class="text-font14 text-color-primary font-medium">80 điểm</p>
-        </div>
-        <div>
-          <p class="text-font14 text-color-gray mb-1">Thời gian làm bài:</p>
-          <p class="text-font14 text-color-primary font-medium">80 phút</p>
-        </div>
-      </div>
-    </div>
-    <div class="lg:container mx-auto">
-      <form @submit.prevent="OnSubmit">
-        <div class="lg:grid grid-cols-4 gap-3 max-sm:grid-cols-1">
-          <div class="col-span-3 max-sm:col-span-1 max-sm:order-2">
-            <CauHoi />
-          </div>
-          <div class="bg-white rounded-lg p-3 max-sm:order-1 max-lg:hidden">
-            <ThoiGian />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
+      const payload = {
+        answers: answersArray,
+      };
+
+      try {
+        const response = await axios.post(`/exam/submit/${this.id}`, payload);
+        console.log("Submit successful:", response.data);
+        alert("Bài thi đã được nộp!");
+      } catch (error) {
+        console.error("Error submitting answers:", error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchQuestions();
+  },
+};
+</script>

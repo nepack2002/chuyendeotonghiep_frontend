@@ -132,7 +132,7 @@
             </div>
           </div>
         </div>
-        <RouterLink :to="{name : 'pdf'}">
+        <!-- <RouterLink :to="{name : 'pdf'}">
           <div class="border-b border-color-border-2 py-3 pl-8 pr-5 max-md:py-3 max-md:px-4">
             <div class="flex gap-2 items-start">
               <img
@@ -152,7 +152,7 @@
               </div>
             </div>
           </div>
-        </RouterLink>
+        </RouterLink> -->
 
         <RouterLink to="/learn-exam">
           <div class="border-b border-color-border-2 py-3 pl-8 pr-5 max-md:py-3 max-md:px-4">

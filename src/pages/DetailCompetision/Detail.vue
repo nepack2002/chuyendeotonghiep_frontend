@@ -5,7 +5,7 @@
     >
       <div class="flex mb-1">
         <p class="text-font18 font-semibold text-color-primary">
-          Cuộc thi an toàn thông tin quý I năm 2024
+         {{ competitions.passingQuestion }}
         </p>
         <router-link :to="{ name: 'Competision' }">
           <img
@@ -16,13 +16,13 @@
         </router-link>
       </div>
       <div>
-        <span class="text-font14 text-color-gray">Số điểm cần đạt: </span>
+        <span class="text-font14 text-color-gray">Số điểm cần đạt:</span>
         <span class="text-font14 text-color-primary font-medium"
           >{{ competitions.passingQuestion }} điểm</span
         >
       </div>
     </div>
-    <div class="md:container mx-auto min-h-[80vh]">
+    <div class="container mx-auto min-h-[80vh]">
       <div
         class="grid grid-cols-1 gap-5 max-md:gap-[6px] pt-5 max-md:pt-1 pb-[100px] max-md:grid-cols-1"
       >
@@ -90,7 +90,11 @@
             </router-link>
           </div>
           <!-- Truyền prop vào component ResultTest -->
-          <ResultTest :results="detail" :count="count" :examResult="competitions.submitTime" />
+          <ResultTest
+            :results="detail"
+            :count="count"
+            :examResult="competitions.submitTime"
+          />
         </div>
       </div>
     </div>
@@ -126,10 +130,9 @@ export default {
 
         this.competitions = response.data.data;
         console.log(this.competitions.passingQuestion);
-        
+
         this.detail = response_.data.data.results;
-          this.count = response_.data.data.count;
-    
+        this.count = response_.data.data.count;
       } catch (error) {
         this.error = error.message;
       } finally {

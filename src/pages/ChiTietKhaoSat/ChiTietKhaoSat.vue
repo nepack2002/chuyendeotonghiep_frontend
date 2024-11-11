@@ -113,7 +113,6 @@ export default {
       this.openThongBao = false;
     },
     handleBeforeUnload(event) {
-      // Cảnh báo khi người dùng cố gắng reload hoặc rời khỏi trang
       event.preventDefault();
       event.returnValue = ""; // Một thông báo mặc định sẽ hiển thị
     },

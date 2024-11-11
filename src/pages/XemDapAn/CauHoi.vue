@@ -19,43 +19,18 @@ async function fetchExamResult() {
     questions.value = data.detailResult.map((item) => ({
       id: item.id,
       question: item.name,
-      options: item.choice.map((choice, index) => ({
-        id: String.fromCharCode(65 + index), // Chuyển đổi thành A, B, C, ...
+      options: item.choice.map((choice) => ({
         text: choice,
       })),
       answer: item.correctAns,
       selectedAnswer: item.answer,
       type: item.type,
     }));
+    console.log(questions);
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu bài thi:", error);
   }
 }
-
-// Tính toán số lượng câu hỏi đúng
-const correctAnswersCount = computed(() => {
-  return questions.value.reduce((count, question) => {
-    if (question.type === "radio") {
-      return (
-        count + (question.selectedAnswer[0] === question.answer[0] ? 1 : 0)
-      );
-    } else if (question.type === "checkbox") {
-      return (
-        count +
-        (JSON.stringify(question.selectedAnswer.sort()) ===
-        JSON.stringify(question.answer.sort())
-          ? 1
-          : 0)
-      );
-    }
-    return count;
-  }, 0);
-});
-
-// Tính điểm
-const totalPoints = computed(() => {
-  return correctAnswersCount.value * 1; // Giả sử mỗi câu đúng được 1 điểm
-});
 
 // Gọi API khi component được mount
 onMounted(fetchExamResult);
@@ -67,11 +42,12 @@ onMounted(fetchExamResult);
       <div
         v-for="(question, index) in questions"
         :key="question.id"
+        :id="`question-${index}`"
         class="border-b border-color-border py-3"
       >
         <div class="flex justify-between items-center max-md:items-start">
           <p class="text-color-primary text-base font-semibold max-md:text-sm">
-            <span class="text-color-greend-2">Câu {{ question.id }}:</span>
+            <span class="text-color-primary">Câu {{ index + 1 }}:</span>
             {{ question.question }}
           </p>
         </div>
@@ -94,15 +70,21 @@ onMounted(fetchExamResult);
             "
             disabled
             :class="{
+              //is_true là để đổi màu những câu đúng thành mà xanh
               is_true:
                 (question.type === 'radio' &&
+                  //kiểm tra xem đáp án đúng mà bằng với list option thì tích xanh
                   option.text === question.answer[0]) ||
                 (question.type === 'checkbox' &&
                   question.answer.includes(option.text)),
+              // is_warning:
+              //   question.type === 'checkbox' &&
+              //   question.answer.includes(option.text) && // Đáp án đúng
+              //   !question.selectedAnswer.includes(option.text), // Người dùng chưa chọn
               is_false:
                 (question.type === 'radio' &&
-                  option.text !== question.answer[0] &&
-                  question.selectedAnswer === option.text) ||
+                  question.selectedAnswer[0] !== question.answer[0] &&
+                  option.text === question.selectedAnswer[0]) ||
                 (question.type === 'checkbox' &&
                   question.selectedAnswer.includes(option.text) &&
                   !question.answer.includes(option.text)),
@@ -140,7 +122,13 @@ onMounted(fetchExamResult);
                 : question.answer
             }}</span>
           </p>
-          <p class="text-color-text-1 text-base font-semibold max-md:text-sm">
+          <p
+            v-if="
+              Array.isArray(question.selectedAnswer) &&
+              question.selectedAnswer.length > 0
+            "
+            class="text-color-text-1 text-base font-semibold max-md:text-sm"
+          >
             Đáp án đã chọn:
             <span>{{
               Array.isArray(question.selectedAnswer)
@@ -148,18 +136,17 @@ onMounted(fetchExamResult);
                 : question.selectedAnswer || "Chưa chọn"
             }}</span>
           </p>
+          <p
+            v-else
+            class="text-color-text-1 text-base font-semibold max-md:text-sm"
+          >
+            Bạn chưa làm câu này
+          </p>
         </div>
       </div>
     </div>
 
     <!-- Phần kết quả -->
-    <div class="bg-white lg:hidden sticky left-0 bottom-0 py-3 px-4">
-      <!-- Kết quả hiển thị -->
-      <p>
-        Điểm: <span>{{ totalPoints }} điểm</span>
-      </p>
-      <p>{{ correctAnswersCount }}/{{ questions.length }} câu đúng</p>
-    </div>
   </div>
 </template>
 

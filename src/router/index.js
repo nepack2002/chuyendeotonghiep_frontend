@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/learn-video",
     component: Video,
-    name : "learn-video",
+    name: "learn-video",
     meta: {
       layout: "content-learn",
     },
@@ -57,13 +57,14 @@ const routes = [
   {
     path: "/competision-detail/:id",
     component: DetailCompetision,
-    name : "competision-detail",
+    name: "competision-detail",
     meta: {
       layout: "competision",
     },
   },
   {
-    path: "/competision-exam",
+    path: "/competision-exam/:id",
+    name: "LamBaiThi",
     component: LamBaiThi,
     meta: {
       layout: "competision",
@@ -95,36 +96,36 @@ const routes = [
     component: Knowledge,
     name: "Knowledge",
   },
- {
-  path: "/dao-tao",
-  component: DaoTao,
-  name: "DaoTao",
-  redirect: { name: "TaiLieu" },
-  children: [
-    {
-      path: "",
-      name: "Banner",
-      component: Banner,
-      children: [
-        {
-          path: "tai-lieu",
-          component: TaiLieu,
-          name: "TaiLieu",
-        },
-        {
-          path: "khoa-hoc",
-          name: "Course",
-          component: KhoaHoc,
-        },
-        {
-          path: "competision",
-          component: Competision,
-          name: "Competision",
-        },
-      ],
-    },
-  ],
-},
+  {
+    path: "/dao-tao",
+    component: DaoTao,
+    name: "DaoTao",
+    redirect: { name: "TaiLieu" },
+    children: [
+      {
+        path: "",
+        name: "Banner",
+        component: Banner,
+        children: [
+          {
+            path: "tai-lieu",
+            component: TaiLieu,
+            name: "TaiLieu",
+          },
+          {
+            path: "khoa-hoc",
+            name: "Course",
+            component: KhoaHoc,
+          },
+          {
+            path: "competision",
+            component: Competision,
+            name: "Competision",
+          },
+        ],
+      },
+    ],
+  },
 
 ];
 
