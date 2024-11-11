@@ -31,9 +31,16 @@ const routes = [
     },
   },
   {
-    path: "/course-detail",
+    path: "/course-detail/:slug?",
     component: DetailCourse,
-    name: 'DetailCourse',
+    name: "DetailCourse",
+    beforeEnter: (to, from, next) => {
+      if (!to.params.slug) {
+        next({ path: "/" });
+      } else {
+        next(); 
+      }
+    },
   },
   {
     path: "/learn-video",
@@ -72,7 +79,7 @@ const routes = [
   },
   {
     path: "/competision-result/:id",
-    name: 'XemDapAn',
+    name: "XemDapAn",
     component: XemDapAn,
     meta: {
       layout: "competision",
@@ -96,36 +103,36 @@ const routes = [
     component: Knowledge,
     name: "Knowledge",
   },
-  {
-    path: "/dao-tao",
-    component: DaoTao,
-    name: "DaoTao",
-    redirect: { name: "TaiLieu" },
-    children: [
-      {
-        path: "",
-        name: "Banner",
-        component: Banner,
-        children: [
-          {
-            path: "tai-lieu",
-            component: TaiLieu,
-            name: "TaiLieu",
-          },
-          {
-            path: "khoa-hoc",
-            name: "Course",
-            component: KhoaHoc,
-          },
-          {
-            path: "competision",
-            component: Competision,
-            name: "Competision",
-          },
-        ],
-      },
-    ],
-  },
+ {
+  path: "/dao-tao",
+  component: DaoTao,
+  name: "DaoTao",
+  redirect: { name: "TaiLieu" },
+  children: [
+    {
+      path: "",
+      name: "Banner",
+      component: Banner,
+      children: [
+        {
+          path: "tai-lieu",
+          component: TaiLieu,
+          name: "TaiLieu",
+        },
+        {
+          path: "khoa-hoc",
+          name: "Course",
+          component: KhoaHoc,
+        },
+        {
+          path: "competision",
+          component: Competision,
+          name: "Competision",
+        },
+      ],
+    },
+  ],
+},
 
 ];
 
