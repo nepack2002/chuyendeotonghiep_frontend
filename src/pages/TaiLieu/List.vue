@@ -14,7 +14,7 @@
           </p>
         </div>
         <p class="max-md:text-sm text-base text-color-gray flex-1 text-center">
-          {{ item.date || "Không có ngày" }}
+          {{ item.createdAt || "Không có ngày" }}
         </p>
         <button
           @click="downloadFile(item.context)"
