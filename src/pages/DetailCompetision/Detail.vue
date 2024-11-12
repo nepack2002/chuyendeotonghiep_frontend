@@ -3,31 +3,15 @@
     <div
       class="bg-white container pt-[10px] py-3 border-b border-color-border lg:hidden relative"
     >
-      <div class="flex mb-1">
-        <p class="text-font18 font-semibold text-color-primary">
-         {{ competitions.passingQuestion }}
-        </p>
-        <router-link :to="{ name: 'Competision' }">
-          <img
-            src="@/assets/images/Cancel.svg"
-            alt="Icon"
-            class="w-6 h-6 absolute top-3 right-4"
-          />
-        </router-link>
-      </div>
-      <div>
-        <span class="text-font14 text-color-gray">Số điểm cần đạt:</span>
-        <span class="text-font14 text-color-primary font-medium"
-          >{{ competitions.passingQuestion }} điểm</span
-        >
-      </div>
+      <!-- Nội dung khác của trang -->
     </div>
+
     <div class="container mx-auto min-h-[80vh]">
       <div
         class="grid grid-cols-1 gap-5 max-md:gap-[6px] pt-5 max-md:pt-1 pb-[100px] max-md:grid-cols-1"
       >
         <div class="bg-white pt-5 max-md:pt-3 rounded-lg">
-          <!-- Thông tin về vòng thi -->
+          <!-- Nội dung khác của trang -->
           <div class="text-center pb-3 md:border-b border-color-border">
             <p
               class="text-color-primary text-font20lh font-semibold max-md:text-lg"
@@ -35,7 +19,6 @@
               Làm bài thi
             </p>
           </div>
-          <!-- Thông tin chi tiết -->
           <div class="max-md:border-y border-color-border">
             <div class="grid grid-cols-2 max-lg:grid-cols-1 mx-4">
               <div class="flex items-center gap-2 pt-3 max-md:pt-4">
@@ -77,18 +60,19 @@
                 </p>
               </div>
             </div>
-            <router-link to="/competision-exam">
-              <div
-                class="py-5 max-md:py-4 mx-4 text-center md:border-b border-color-border"
-              >
-                <button
-                  class="px-4 py-2 bg-color-primary-2 rounded-lg text-white text-sm max-md:w-[200px]"
-                >
-                  <p class="max-md:text-xs">Tham gia vòng thi</p>
-                </button>
-              </div>
-            </router-link>
           </div>
+          <!-- Nút tham gia vòng thi -->
+          <div
+            class="py-5 max-md:py-4 mx-4 text-center md:border-b border-color-border"
+          >
+            <button
+              @click="joinExam"
+              class="px-4 py-2 bg-color-primary-2 rounded-lg text-white text-sm max-md:w-[200px]"
+            >
+              <p class="max-md:text-xs">Tham gia vòng thi</p>
+            </button>
+          </div>
+
           <!-- Truyền prop vào component ResultTest -->
           <ResultTest
             :results="detail"
@@ -129,14 +113,28 @@ export default {
         ]);
 
         this.competitions = response.data.data;
-        console.log(this.competitions.passingQuestion);
-
         this.detail = response_.data.data.results;
         this.count = response_.data.data.count;
+        console.log(this.competitions, this.detail, this.count);
       } catch (error) {
         this.error = error.message;
       } finally {
         this.loading = false;
+      }
+    },
+    async joinExam() {
+      try {
+        // Gọi API để tham gia vòng thi
+        const response = await axios.get(
+          `/exam/attend/${this.competitions.slug}`
+        );
+        const examId = response.data.data.test; // Lấy `id` từ API
+
+        // Điều hướng đến trang làm bài với `id` vừa nhận được
+        this.$router.push({ name: "LamBaiThi", params: { id: examId } });
+      } catch (error) {
+        console.error("Lỗi khi tham gia vòng thi:", error);
+        this.error = error.message;
       }
     },
   },
@@ -145,7 +143,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* Add your custom styles here */
-</style>

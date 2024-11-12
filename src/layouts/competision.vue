@@ -4,7 +4,7 @@ import Footer from "../components/Footer.vue";
 </script>
 
 <template>
-  <div class="max-lg:hidden"><Header /></div>
+  <!-- <div class="max-lg:hidden"><Header /></div> -->
 
   <slot />
 
