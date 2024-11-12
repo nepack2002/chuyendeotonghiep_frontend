@@ -44,24 +44,42 @@
   <!-- Nút Nộp bài -->
   <div class="py-5 text-center max-sm:py-2">
     <button
-      @click="emitSubmitExam"
+      @click="openThongBaoModal"
+      
       class="px-4 py-2 max-sm:px-2 max-sm:py-1 bg-color-primary-2 rounded-lg text-white text-sm"
     >
       <p class="max-sm:text-[10px]">Nộp bài</p>
     </button>
   </div>
+  <Modal ref="PopUpThongBao">
+    <PopupThongBao @close="closeThongBaoModal" @submit="emitSubmitExam" />
+  </Modal>
 </template>
 
 <script>
-import { ref, onMounted, computed, onUnmounted } from "vue";
-
+import Modal from "@/components/global/Modal.vue";
+import PopupThongBao from "./PopupThongBao.vue";
 export default {
   props: {
     dataQuestion: Array,
     selectedAnswers: Object,
   },
+  components: { Modal, PopupThongBao },
+  data() {
+    return {
+      timeDisplay: "10:00",
+      countdownInterval: null,
+      currentQuestionIndex: null,
+    };
+  },
   emits: ["submitExam"],
   methods: {
+    openThongBaoModal() {
+      this.$refs.PopUpThongBao.openModal();
+    },
+    closeThongBaoModal() {
+      this.$refs.PopUpThongBao.closeModal();
+    },
     isActive(questionId) {
       return this.selectedAnswers.hasOwnProperty(questionId);
     },
@@ -81,22 +99,16 @@ export default {
       clearInterval(this.countdownInterval); // Dừng đồng hồ đếm ngược
       localStorage.removeItem("remainingTime"); // Xóa `remainingTime` khỏi `localStorage`
       this.$emit("submitExam");
-        this.$router.back();
     },
-  },
-  setup(props, { emit }) {
-    const timeDisplay = ref("10:00");
-    let countdownInterval = null;
-
-    const startCountdown = () => {
+    startCountdown() {
       let totalSeconds =
         Number(localStorage.getItem("remainingTime")) || 10 * 60;
 
-      countdownInterval = setInterval(() => {
+      this.countdownInterval = setInterval(() => {
         if (totalSeconds <= 0) {
-          clearInterval(countdownInterval);
+          clearInterval(this.countdownInterval);
           localStorage.removeItem("remainingTime");
-          emit("submitExam");
+          this.$emit("submitExam");
         } else {
           totalSeconds -= 1;
           localStorage.setItem("remainingTime", totalSeconds);
@@ -105,22 +117,16 @@ export default {
             "0"
           );
           const seconds = String(totalSeconds % 60).padStart(2, "0");
-          timeDisplay.value = `${minutes}:${seconds}`;
+          this.timeDisplay = `${minutes}:${seconds}`;
         }
       }, 1000);
-    };
-
-    onMounted(() => {
-      startCountdown();
-    });
-
-    onUnmounted(() => {
-      clearInterval(countdownInterval);
-    });
-
-    return {
-      timeDisplay,
-    };
+    },
+  },
+  mounted() {
+    this.startCountdown();
+  },
+  beforeUnmount() {
+    clearInterval(this.countdownInterval);
   },
 };
 </script>

@@ -29,6 +29,7 @@
     </div>
     <div class="pt-5 text-center flex items-center gap-4 justify-center">
       <button
+        @click="handleClose"
         class="w-[50%] py-10px max-md:py-[9px] bg-color-white border border-color-primary-2 rounded-lg"
       >
         <p

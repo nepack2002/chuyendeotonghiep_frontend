@@ -1,4 +1,5 @@
 <template>
+  <Header :competitions="competitions" @back="goBack" />
   <div>
     <div
       class="bg-white container pt-[10px] py-3 border-b border-color-border lg:hidden relative"
@@ -87,11 +88,14 @@
 
 <script>
 import ResultTest from "./ResultTest.vue";
+import Header from "@/components/ParitialCompetision/Header.vue";
+
 import axios from "axios";
 
 export default {
   components: {
     ResultTest,
+    Header,
   },
   data() {
     return {
@@ -129,13 +133,15 @@ export default {
           `/exam/attend/${this.competitions.slug}`
         );
         const examId = response.data.data.test; // Lấy `id` từ API
-
         // Điều hướng đến trang làm bài với `id` vừa nhận được
         this.$router.push({ name: "LamBaiThi", params: { id: examId } });
       } catch (error) {
         console.error("Lỗi khi tham gia vòng thi:", error);
         this.error = error.message;
       }
+    },
+    goBack() {
+      this.$router.back(); // Quay lại trang trước bằng Vue Router
     },
   },
   mounted() {
