@@ -52,6 +52,7 @@ export default {
       try {
         const response = await axios.get(`/exam/detail-result/${testId}`);
         this.dataQuestion = response.data.data.detailResult || [];
+        console.log(this.dataQuestion);
         this.id = response.data.data.id;
       } catch (error) {
         console.error("Error fetching questions:", error);

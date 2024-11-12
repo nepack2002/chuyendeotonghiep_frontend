@@ -19,7 +19,7 @@
       v-for="(question, index) in dataQuestion"
       @click="goToQuestion(index)"
       :key="index"
-      :class="[ 
+      :class="[
         'p-[10px] max-sm:p-1 max-sm:text-[10px] bg-color-black flex justify-center items-center text-color-text-1 rounded-lg relative font-semibold border border-color-border w-11 h-11',
         {
           'bg-color-primary-2 text-white': isActive(question.id),
@@ -34,11 +34,7 @@
   <div
     class="flex items-start bg-color-orange-2 p-2 max-sm:p-1 rounded-md border border-color-orange-1 gap-2 mt-5 max-sm:flex-wrap max-md:text-center max-sm:justify-center"
   >
-    <img
-      src="@/assets/images/info-circle.svg"
-      alt="Icon"
-      class="max-lg:h-3"
-    />
+    <img src="@/assets/images/info-circle.svg" alt="Icon" class="max-lg:h-3" />
     <p class="text-color-primary text-sm max-lg:text-xs max-sm:text-[5px]">
       Thời gian được tính từ lúc bắt đầu làm bài. Hết thời gian quy định hệ
       thống sẽ tự động nộp bài.
@@ -82,7 +78,10 @@ export default {
       });
     },
     emitSubmitExam() {
+      clearInterval(this.countdownInterval); // Dừng đồng hồ đếm ngược
+      localStorage.removeItem("remainingTime"); // Xóa `remainingTime` khỏi `localStorage`
       this.$emit("submitExam");
+        this.$router.back();
     },
   },
   setup(props, { emit }) {
@@ -90,7 +89,8 @@ export default {
     let countdownInterval = null;
 
     const startCountdown = () => {
-      let totalSeconds = Number(localStorage.getItem("remainingTime")) || 10 * 60;
+      let totalSeconds =
+        Number(localStorage.getItem("remainingTime")) || 10 * 60;
 
       countdownInterval = setInterval(() => {
         if (totalSeconds <= 0) {
@@ -100,7 +100,10 @@ export default {
         } else {
           totalSeconds -= 1;
           localStorage.setItem("remainingTime", totalSeconds);
-          const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+          const minutes = String(Math.floor(totalSeconds / 60)).padStart(
+            2,
+            "0"
+          );
           const seconds = String(totalSeconds % 60).padStart(2, "0");
           timeDisplay.value = `${minutes}:${seconds}`;
         }
