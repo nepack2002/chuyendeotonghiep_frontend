@@ -59,7 +59,7 @@ const downloadFile = async (context: string) => {
 
       <div class="w-full mt-5">
         <!-- Hiển thị thông báo nếu không có tài liệu -->
-        <div v-if="props.documents.length === 0" class="text-center text-color-gray text-sm italic">
+        <div v-if="props.documents?.length === 0" class="text-center text-color-gray text-sm italic">
           Chưa có tài liệu nào !
         </div>
 

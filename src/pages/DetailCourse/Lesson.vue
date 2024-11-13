@@ -39,7 +39,7 @@ const toggleOpen = () => {
       </div>
 
       <div class="w-full mt-5">
-       <div v-if="props.lessons.length === 0" class="text-center text-color-gray text-sm italic">
+       <div v-if="props.lessons?.length === 0" class="text-center text-color-gray text-sm italic">
           Chưa có bài học nào !
         </div>
         <div v-else class="mx-auto w-full">
@@ -58,7 +58,7 @@ const toggleOpen = () => {
 
                 <!-- "Học tiếp" button for the next lesson -->
                 <div
-                  v-if="lesson.inCourse === process + 1"
+                  v-if="lesson?.inCourse === process + 1"
                   class="flex items-center gap-5 justify-end max-lg:mt-1 max-lg:justify-between"
                 >
                   <div class="max-lg:order-2">
