@@ -142,7 +142,7 @@ export default {
       }
     },
     goBack() {
-      this.$router.back(); // Quay lại trang trước bằng Vue Router
+      this.$router.push('/dao-tao/competision'); // Quay lại trang trước bằng Vue Router
     },
   },
   mounted() {

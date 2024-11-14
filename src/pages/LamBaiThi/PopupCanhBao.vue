@@ -17,7 +17,7 @@
             <p class="text-color-text-1 text-base max-md:text-sm">Nếu bạn thoát ra ngoài bài của bạn sẽ được nộp!</p>
         </div>
         <div class="py-5 text-center flex items-center gap-3 justify-center">
-            <button @click="this.$emit('submit')" class="px-4 py-10px max-sm:px-3 max-sm:py-1 bg-color-white border border-color-primary-2 rounded-lg  ">
+            <button @click="this.$emit('submit')" class="px-4 py-10px max-sm:px-3 max-sm:py-1 bg-color-white border border-color-primary-2 rounded-lg  outline-none ">
                 <p class="max-sm:text-[10px] text-color-primary-2 text-base font-semibold">Thoát ra</p>
             </button>
             <button @click="this.$emit('close')" class="px-4 py-10px max-sm:px-3 max-sm:py-1 bg-color-primary-2 rounded-lg">

@@ -87,17 +87,17 @@
         <p class="text-color-text-1 text-sm">Đáp án chọn sai</p>
       </div>
     </div>
-
     <!-- Nút điều hướng -->
     <div class="text-center flex items-center justify-between gap-4">
-      <div
-        @click="$router.back()"
+      <router-link
+        v-if="slug"
+        :to="{ name: 'competision-detail', params: { id: slug } }"
         class="px-4 py-[9px] bg-color-white border border-color-primary-2 rounded-lg flex-1"
       >
         <p class="text-color-primary-2 text-base font-semibold max-md:text-sm">
           Trở lại
         </p>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -113,6 +113,7 @@ export default {
       totalQuestions: "", // tổng số câu hỏi
       createdAt: "",
       submitAt: "",
+      slug:"",
       detailResult: [], // chứa dữ liệu chi tiết từng câu hỏi
     };
   },
@@ -130,6 +131,7 @@ export default {
       this.createdAt = data.createdAt;
       this.submitAt = data.submitAt;
       this.detailResult = data.detailResult;
+      this.slug = data.exam.slug; // lưu slug để truyền qua url cho nút điều hướng trở lại
     } catch (error) {
       console.error("Lỗi khi lấy chi tiết kết quả bài thi:", error);
     }

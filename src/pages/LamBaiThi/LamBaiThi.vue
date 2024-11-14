@@ -16,13 +16,14 @@
             />
           </div>
           <div
+            v-if="submitTime"
             class="bg-white rounded-lg p-3 max-sm:order-1 max-md:hidden h-fit sticky top-8"
           >
             <ThoiGian
               :dataQuestion="dataQuestion"
               :selectedAnswers="selectedAnswers"
               @submitExam="onSubmit"
-              :timeDisplay="timeDisplay"
+              :submitTime="submitTime"
             />
           </div>
         </div>
@@ -56,7 +57,6 @@ export default {
       selectedAnswers: {},
       slug: "",
       id: null,
-      timeDisplay:null,
     };
   },
   computed: {
@@ -77,6 +77,9 @@ export default {
         const response = await axios.get(`/exam/detail-result/${testId}`);
         this.dataQuestion = response.data.data.detailResult;
         this.slug = response.data.data.exam.slug;
+        if (response.data.data.submitAt) {
+          this.$router.back();
+        }
         console.log(this.dataQuestion);
         await this.getInfo();
         this.id = response.data.data.id;
@@ -123,34 +126,12 @@ export default {
         console.error("Error submitting answers:", error);
       }
     },
-    startCountdown() {
-      let totalSeconds =
-        Number(localStorage.getItem("remainingTime")) || this.submitTime * 60;
-
-      this.countdownInterval = setInterval(() => {
-        if (totalSeconds <= 0) {
-          clearInterval(this.countdownInterval);
-          localStorage.removeItem("remainingTime");
-          this.$emit("submitExam");
-        } else {
-          totalSeconds -= 1;
-          localStorage.setItem("remainingTime", totalSeconds);
-          const minutes = String(Math.floor(totalSeconds / 60)).padStart(
-            2,
-            "0"
-          );
-          const seconds = String(totalSeconds % 60).padStart(2, "0");
-          this.timeDisplay = `${minutes}:${seconds}`;
-        }
-      }, 1000);
-    },
     async getInfo() {
       try {
         const [response] = await Promise.all([
           axios.get(`/exam/detail/${this.slug}`),
         ]);
         this.competitions = response.data.data;
-        this.startCountdown();
         console.log(this.competitions.submitTime);
       } catch (error) {
         this.error = error.message;

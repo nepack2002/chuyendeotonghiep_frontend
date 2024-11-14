@@ -62,11 +62,12 @@ export default {
   props: {
     dataQuestion: Array,
     selectedAnswers: Object,
-    timeDisplay: String,
+    submitTime: Number,
   },
   components: { Modal, PopupThongBao },
   data() {
     return {
+      timeDisplay: "",
       countdownInterval: null,
       currentQuestionIndex: null,
     };
@@ -99,8 +100,31 @@ export default {
       localStorage.removeItem("remainingTime"); // Xóa `remainingTime` khỏi `localStorage`
       this.$emit("submitExam");
     },
-  },
+    startCountdown() {
+      let totalSeconds =
+        Number(localStorage.getItem("remainingTime")) || this.submitTime * 60;
 
+      this.countdownInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(this.countdownInterval);
+          localStorage.removeItem("remainingTime");
+          this.$emit("submitExam");
+        } else {
+          totalSeconds -= 1;
+          localStorage.setItem("remainingTime", totalSeconds);
+          const minutes = String(Math.floor(totalSeconds / 60)).padStart(
+            2,
+            "0"
+          );
+          const seconds = String(totalSeconds % 60).padStart(2, "0");
+          this.timeDisplay = `${minutes}:${seconds}`;
+        }
+      }, 1000);
+    },
+  },
+  mounted() {
+    this.startCountdown();
+  },
   beforeUnmount() {
     clearInterval(this.countdownInterval);
   },

@@ -21,7 +21,6 @@ import CauHoi from "./CauHoi.vue";
 import KetQua from "./KetQua.vue";
 import Header from "@/components/XemDapAn/Header.vue";
 import axios from "axios";
-import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router"; // Import useRoute
 
 export default {
@@ -31,23 +30,25 @@ export default {
     Header,
   },
 
-  setup() {
-    const questions = ref([]); // Dữ liệu câu hỏi
-    const route = useRoute(); // Sử dụng useRoute để lấy route thông qua hook
-    const nameHeader = ref("");
-    const slug = ref("");
+  data() {
+    return {
+      questions: [], // Dữ liệu câu hỏi
+      nameHeader: "",
+      slug: "",
+    };
+  },
 
-    // Hàm fetch kết quả bài thi
-    const fetchExamResult = async () => {
+  methods: {
+    async fetchExamResult() {
       try {
-        const id = route.params.id; // Lấy id từ URL params
+        const id = this.route.params.id; // Lấy id từ URL params
         const response = await axios.get(`/exam/detail-result/${id}`); // Gọi API với id
         const data = response.data.data;
-        nameHeader.value = data.exam.name; // Cấu trúc lại dữ liệu cho câu hỏi
-        slug.value = data.exam.slug;
-        console.log(slug.value);
-        
-        questions.value = data.detailResult.map((item) => ({
+        this.nameHeader = data.exam.name; // Cấu trúc lại dữ liệu cho câu hỏi
+        this.slug = data.exam.slug;
+        console.log(this.slug);
+
+        this.questions = data.detailResult.map((item) => ({
           id: item.id,
           question: item.name,
           options: item.choice.map((choice) => ({
@@ -58,18 +59,20 @@ export default {
           type: item.type,
         }));
       } catch (error) {
+        this.$router.back();
         console.error("Lỗi khi lấy dữ liệu bài thi:", error);
       }
-    };
+    },
+  },
 
-    // Gọi API khi component được mount
-    onMounted(fetchExamResult);
+  computed: {
+    route() {
+      return useRoute(); // Sử dụng useRoute thông qua computed
+    },
+  },
 
-    return {
-      questions,
-      nameHeader,
-      slug,
-    };
+  mounted() {
+    this.fetchExamResult(); // Gọi API khi component được mount
   },
 };
 </script>
