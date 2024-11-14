@@ -22,6 +22,7 @@
               :dataQuestion="dataQuestion"
               :selectedAnswers="selectedAnswers"
               @submitExam="onSubmit"
+              :submitTime="submitTime"
             />
           </div>
         </div>
@@ -55,7 +56,13 @@ export default {
       selectedAnswers: {},
       slug: "",
       id: null,
+
     };
+  },
+  computed: {
+    submitTime() {
+      return this.competitions.submitTime;
+    }
   },
   methods: {
     openThongBaoModal() {
@@ -74,7 +81,7 @@ export default {
         await this.getInfo();
         this.id = response.data.data.id;
       } catch (error) {
-        console.error("Error fetching questions:", error);
+        this.$router.back();
       }
     },
     updateSelectedAnswers({ questionId, choice, type }) {
@@ -122,6 +129,8 @@ export default {
           axios.get(`/exam/detail/${this.slug}`),
         ]);
         this.competitions = response.data.data;
+        console.log(this.competitions.submitTime);
+        
       } catch (error) {
         this.error = error.message;
       } finally {

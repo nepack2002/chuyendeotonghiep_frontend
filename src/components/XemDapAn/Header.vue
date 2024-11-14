@@ -3,9 +3,11 @@ import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "@/stores/auth";
 export default {
   props: {
-    competitions: {
-      type: Object, // Đặt kiểu dữ liệu cho competitions
+    name: {
       required: true, // Đảm bảo competitions là bắt buộc
+    },
+    slug: {
+      required: false, // Đảm bảo slug là bắt buộc
     },
   },
   computed: {
@@ -20,20 +22,19 @@ export default {
     <div class="container mx-auto">
       <div class="flex justify-between items-center gap-3 py-3">
         <div class="flex items-center gap-3">
-          <div
+          <router-link v-if="slug"
+            :to="{ name: 'competision-detail', params: { id: slug } }"
             class="flex gap-3 cursor-pointer max-lg:hidden"
-            @click="this.$emit('back')"
           >
             <img src="../../assets/images/arrow-left.svg" alt="Icon" />
             <p class="text-[#005ED3] text-base font-semibold">Trở về</p>
-          </div>
+          </router-link>
           <div>
             <p
               class="text-[#273266] text-font20lh font-semibold max-md:text-lg"
             >
-              {{ competitions?.name }}
+              {{ name }}
             </p>
-           
           </div>
         </div>
 

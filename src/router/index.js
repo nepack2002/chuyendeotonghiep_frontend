@@ -15,8 +15,20 @@ import Knowledge from "@/pages/Knowledge/Knowledge.vue";
 import DaoTao from "@/pages/Dung_Chung/DaoTao.vue";
 import Banner from "@/pages/Dung_Chung/Banner.vue";
 import DangNhap from "../pages/DangNhap/DangNhap.vue";
-
+import Page404 from "@/pages/404.vue";
 const routes = [
+   {
+     path: '/:pathMatch(.*)*',
+     name: "Page404",
+     component: Page404 ,
+     meta: {
+       hideNavigation: true,
+       routeName: {
+         i18n: "not_found",
+         label: "Không tìm thấy"
+       }
+     }
+   },
   {
     path: "/",
     component: TrangChu,

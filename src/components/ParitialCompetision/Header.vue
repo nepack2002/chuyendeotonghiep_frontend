@@ -33,7 +33,7 @@ export default {
             >
               {{ competitions?.name }}
             </p>
-            <div class="flex gap-2">
+            <div class="flex gap-2" v-if="competitions?.passingQuestion">
               <p class="text-[#636B90] text-sm">Số điểm cần đạt:</p>
               <p class="text-[#3C4378] text-sm font-medium">
                 {{ competitions?.passingQuestion }} điểm

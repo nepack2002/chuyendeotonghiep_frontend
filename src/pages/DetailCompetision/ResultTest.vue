@@ -66,7 +66,7 @@ const open = ref(false);
           class="text-color-primary text-sm border-b border-color-border"
         >
           <td class="p-2">
-            <p>Lần {{ index + 1 }}</p>
+            <p>Lần {{ results.length - index }}</p>
             <p class="md:hidden">{{ result.createdAt }}</p>
             <p class="md:hidden">{{ result.submitAt }}</p>
           </td>
@@ -84,7 +84,10 @@ const open = ref(false);
             <p v-else>Chưa đạt</p>
           </td>
           <td class="p-2">
-            <router-link :to="{name:'XemDapAn', params:{id: result.id}}" class="flex items-center justify-center gap-2">
+            <router-link
+              :to="{ name: 'XemDapAn', params: { id: result.id } }"
+              class="flex items-center justify-center gap-2"
+            >
               <img src="@/assets/images/eye.svg" alt="Icon" />
             </router-link>
           </td>

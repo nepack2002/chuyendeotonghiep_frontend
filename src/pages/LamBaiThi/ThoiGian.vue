@@ -45,10 +45,10 @@
   <div class="py-5 text-center max-sm:py-2">
     <button
       @click="openThongBaoModal"
-      
       class="px-4 py-2 max-sm:px-2 max-sm:py-1 bg-color-primary-2 rounded-lg text-white text-sm"
     >
       <p class="max-sm:text-[10px]">Nộp bài</p>
+      {{ submitTime }}
     </button>
   </div>
   <Modal ref="PopUpThongBao">
@@ -63,11 +63,12 @@ export default {
   props: {
     dataQuestion: Array,
     selectedAnswers: Object,
+    submitTime: Number,
   },
   components: { Modal, PopupThongBao },
   data() {
     return {
-      timeDisplay: "10:00",
+      timeDisplay: "",
       countdownInterval: null,
       currentQuestionIndex: null,
     };
@@ -102,8 +103,10 @@ export default {
     },
     startCountdown() {
       let totalSeconds =
-        Number(localStorage.getItem("remainingTime")) || 10 * 60;
-
+        Number(localStorage.getItem("remainingTime")) ||
+        Number(this.submitTime) * 60;
+      console.log(this.submitTime);
+      
       this.countdownInterval = setInterval(() => {
         if (totalSeconds <= 0) {
           clearInterval(this.countdownInterval);

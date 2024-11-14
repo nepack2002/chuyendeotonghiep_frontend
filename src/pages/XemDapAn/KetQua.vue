@@ -44,7 +44,9 @@
         </p>
         <p class="text-color-gray text-sm mt-1">
           Làm bài lúc:
-          <span class="text-color-text-1 font-medium ml-2">{{ createdAt }}</span>
+          <span class="text-color-text-1 font-medium ml-2">{{
+            createdAt
+          }}</span>
         </p>
         <p class="text-color-gray text-sm mt-1">
           Nộp bài lúc:
@@ -105,10 +107,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      score: '', // giả sử 75 điểm, có thể cập nhật khi load API
+      score: "", // giả sử 75 điểm, có thể cập nhật khi load API
       status: "", // trạng thái mặc định
-      correctAnswers: '', // số câu đúng
-      totalQuestions: '', // tổng số câu hỏi
+      correctAnswers: "", // số câu đúng
+      totalQuestions: "", // tổng số câu hỏi
       createdAt: "",
       submitAt: "",
       detailResult: [], // chứa dữ liệu chi tiết từng câu hỏi
@@ -121,7 +123,7 @@ export default {
       const data = response.data.data;
 
       // Cập nhật dữ liệu từ API
-      this.score = data.correctAns * 5; // ví dụ tính điểm
+      this.score = data.correctAns * 1; // ví dụ tính điểm
       this.status = data.correctAns >= 10 ? "Đạt" : "Chưa đạt"; // điều kiện đạt/chưa đạt
       this.correctAnswers = data.correctAns;
       this.totalQuestions = data.detailResult.length;
@@ -158,10 +160,14 @@ export default {
   },
   computed: {
     scoreClass() {
-      return this.score >= 50 ? "bg-color-green text-white" : "bg-color-red text-white";
+      return this.score >= 50
+        ? "bg-color-green text-white"
+        : "bg-color-red text-white";
     },
     statusClass() {
-      return this.status === "Đạt" ? "bg-color-green text-white" : "bg-color-red text-white";
+      return this.status === "Đạt"
+        ? "bg-color-green text-white"
+        : "bg-color-red text-white";
     },
   },
 };

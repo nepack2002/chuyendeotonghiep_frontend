@@ -113,9 +113,10 @@ export default {
       try {
         const [response, response_] = await Promise.all([
           axios.get(`/exam/detail/${this.slug}`),
-          axios.get(`/exam/list-attend/${this.slug}`),
+          axios.get(`/exam/list-attend/${this.slug}`, {
+            params: { limit: 20 },
+          }),
         ]);
-
         this.competitions = response.data.data;
         this.detail = response_.data.data.results;
         this.count = response_.data.data.count;
