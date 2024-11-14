@@ -48,7 +48,6 @@
       class="px-4 py-2 max-sm:px-2 max-sm:py-1 bg-color-primary-2 rounded-lg text-white text-sm"
     >
       <p class="max-sm:text-[10px]">Nộp bài</p>
-      {{ submitTime }}
     </button>
   </div>
   <Modal ref="PopUpThongBao">
@@ -63,12 +62,11 @@ export default {
   props: {
     dataQuestion: Array,
     selectedAnswers: Object,
-    submitTime: Number,
+    timeDisplay: String,
   },
   components: { Modal, PopupThongBao },
   data() {
     return {
-      timeDisplay: "",
       countdownInterval: null,
       currentQuestionIndex: null,
     };
@@ -101,33 +99,8 @@ export default {
       localStorage.removeItem("remainingTime"); // Xóa `remainingTime` khỏi `localStorage`
       this.$emit("submitExam");
     },
-    startCountdown() {
-      let totalSeconds =
-        Number(localStorage.getItem("remainingTime")) ||
-        Number(this.submitTime) * 60;
-      console.log(this.submitTime);
-      
-      this.countdownInterval = setInterval(() => {
-        if (totalSeconds <= 0) {
-          clearInterval(this.countdownInterval);
-          localStorage.removeItem("remainingTime");
-          this.$emit("submitExam");
-        } else {
-          totalSeconds -= 1;
-          localStorage.setItem("remainingTime", totalSeconds);
-          const minutes = String(Math.floor(totalSeconds / 60)).padStart(
-            2,
-            "0"
-          );
-          const seconds = String(totalSeconds % 60).padStart(2, "0");
-          this.timeDisplay = `${minutes}:${seconds}`;
-        }
-      }, 1000);
-    },
   },
-  mounted() {
-    this.startCountdown();
-  },
+
   beforeUnmount() {
     clearInterval(this.countdownInterval);
   },
