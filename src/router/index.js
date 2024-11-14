@@ -43,9 +43,16 @@ const routes = [
     },
   },
   {
-    path: "/course-detail",
+    path: "/course-detail/:slug?",
     component: DetailCourse,
-    name: 'DetailCourse',
+    name: "DetailCourse",
+    beforeEnter: (to, from, next) => {
+      if (!to.params.slug) {
+        next({ path: "/" });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/learn-video",
@@ -84,7 +91,7 @@ const routes = [
   },
   {
     path: "/competision-result/:id",
-    name: 'XemDapAn',
+    name: "XemDapAn",
     component: XemDapAn,
     meta: {
       layout: "competision",
@@ -138,7 +145,6 @@ const routes = [
       },
     ],
   },
-
 ];
 
 const router = createRouter({
