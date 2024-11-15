@@ -22,6 +22,7 @@
               :dataQuestion="dataQuestion"
               :selectedAnswers="selectedAnswers"
               @submitExam="onSubmit"
+              :timeDisplay="timeDisplay"
             />
           </div>
         </div>
@@ -55,7 +56,13 @@ export default {
       selectedAnswers: {},
       slug: "",
       id: null,
+      timeDisplay:null,
     };
+  },
+  computed: {
+    submitTime() {
+      return this.competitions.submitTime;
+    },
   },
   methods: {
     openThongBaoModal() {
@@ -74,7 +81,7 @@ export default {
         await this.getInfo();
         this.id = response.data.data.id;
       } catch (error) {
-        console.error("Error fetching questions:", error);
+        this.$router.back();
       }
     },
     updateSelectedAnswers({ questionId, choice, type }) {
@@ -116,12 +123,35 @@ export default {
         console.error("Error submitting answers:", error);
       }
     },
+    startCountdown() {
+      let totalSeconds =
+        Number(localStorage.getItem("remainingTime")) || this.submitTime * 60;
+
+      this.countdownInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(this.countdownInterval);
+          localStorage.removeItem("remainingTime");
+          this.$emit("submitExam");
+        } else {
+          totalSeconds -= 1;
+          localStorage.setItem("remainingTime", totalSeconds);
+          const minutes = String(Math.floor(totalSeconds / 60)).padStart(
+            2,
+            "0"
+          );
+          const seconds = String(totalSeconds % 60).padStart(2, "0");
+          this.timeDisplay = `${minutes}:${seconds}`;
+        }
+      }, 1000);
+    },
     async getInfo() {
       try {
         const [response] = await Promise.all([
           axios.get(`/exam/detail/${this.slug}`),
         ]);
         this.competitions = response.data.data;
+        this.startCountdown();
+        console.log(this.competitions.submitTime);
       } catch (error) {
         this.error = error.message;
       } finally {

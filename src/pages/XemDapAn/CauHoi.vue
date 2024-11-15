@@ -1,39 +1,12 @@
-<script setup>
-import { ref, computed, onMounted } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
-
-const route = useRoute(); // Sử dụng useRoute để lấy dữ liệu từ URL
-
-// Dữ liệu câu hỏi
-const questions = ref([]);
-
-// Gọi API để lấy dữ liệu chi tiết kết quả bài thi
-async function fetchExamResult() {
-  try {
-    const id = route.params.id; // Sử dụng route trực tiếp từ useRoute
-    const response = await axios.get(`/exam/detail-result/${id}`);
-    const data = response.data.data;
-
-    // Cấu trúc lại dữ liệu cho questions từ phản hồi của API
-    questions.value = data.detailResult.map((item) => ({
-      id: item.id,
-      question: item.name,
-      options: item.choice.map((choice) => ({
-        text: choice,
-      })),
-      answer: item.correctAns,
-      selectedAnswer: item.answer,
-      type: item.type,
-    }));
-    console.log(questions);
-  } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu bài thi:", error);
-  }
-}
-
-// Gọi API khi component được mount
-onMounted(fetchExamResult);
+<script>
+export default {
+  props: {
+    questions: {
+      type: Array,
+      required: true,
+    },
+  },
+};
 </script>
 
 <template>

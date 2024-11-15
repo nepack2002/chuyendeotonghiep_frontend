@@ -15,8 +15,20 @@ import Knowledge from "@/pages/Knowledge/Knowledge.vue";
 import DaoTao from "@/pages/Dung_Chung/DaoTao.vue";
 import Banner from "@/pages/Dung_Chung/Banner.vue";
 import DangNhap from "../pages/DangNhap/DangNhap.vue";
-
+import Page404 from "@/pages/404.vue";
 const routes = [
+   {
+     path: '/:pathMatch(.*)*',
+     name: "Page404",
+     component: Page404 ,
+     meta: {
+       hideNavigation: true,
+       routeName: {
+         i18n: "not_found",
+         label: "Không tìm thấy"
+       }
+     }
+   },
   {
     path: "/",
     component: TrangChu,
@@ -31,9 +43,16 @@ const routes = [
     },
   },
   {
-    path: "/course-detail",
+    path: "/course-detail/:slug?",
     component: DetailCourse,
-    name: 'DetailCourse',
+    name: "DetailCourse",
+    beforeEnter: (to, from, next) => {
+      if (!to.params.slug) {
+        next({ path: "/" });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/learn-video",
@@ -72,7 +91,7 @@ const routes = [
   },
   {
     path: "/competision-result/:id",
-    name: 'XemDapAn',
+    name: "XemDapAn",
     component: XemDapAn,
     meta: {
       layout: "competision",
@@ -126,7 +145,6 @@ const routes = [
       },
     ],
   },
-
 ];
 
 const router = createRouter({
