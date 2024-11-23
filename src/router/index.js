@@ -3,6 +3,7 @@ import TrangChu from "../pages/TrangChu/TrangChu.vue";
 import KhoaHoc from "../pages/KhoaHoc/KhoaHoc.vue";
 import DetailCourse from "../pages/DetailCourse/Detail.vue";
 import Competision from "../pages/Competition/Competision.vue";
+import ChiTietHocLieu from "../pages/DetailCourse/ChiTietHocLieu.vue"
 import DetailCompetision from "../pages/DetailCompetision/Detail.vue";
 import LamBaiThi from "../pages/LamBaiThi/LamBaiThi.vue";
 import XemDapAn from "../pages/XemDapAn/XemDapAn.vue";
@@ -15,7 +16,9 @@ import Knowledge from "@/pages/Knowledge/Knowledge.vue";
 import DaoTao from "@/pages/Dung_Chung/DaoTao.vue";
 import Banner from "@/pages/Dung_Chung/Banner.vue";
 import DangNhap from "../pages/DangNhap/DangNhap.vue";
+import HoSoCaNhan from "../pages/HoSoCaNhan.vue";
 import Page404 from "@/pages/404.vue";
+import LayPass from "../pages/DangNhap/LayPass.vue";
 const routes = [
    {
      path: '/:pathMatch(.*)*',
@@ -42,6 +45,11 @@ const routes = [
       layout: "dangnhap",
     },
   },
+    {
+      path: "/auth/forgot-password/:id",
+      component: LayPass,
+      name: "LayPass",
+    },
   {
     path: "/course-detail/:slug?",
     component: DetailCourse,
@@ -53,6 +61,11 @@ const routes = [
         next();
       }
     },
+  },
+   {
+    path: "/hoc-lieu/:slug/:id",
+    name: "ChiTietHocLieu",
+    component: ChiTietHocLieu ,
   },
   {
     path: "/learn-video",
@@ -69,10 +82,7 @@ const routes = [
       layout: "content-learn",
     },
   },
-  {
-    path: "/competision",
-    component: Competision,
-  },
+ 
   {
     path: "/competision-detail/:id",
     component: DetailCompetision,
@@ -111,6 +121,11 @@ const routes = [
     },
   },
   {
+    path: "/ho-so-ca-nhan",
+    component: HoSoCaNhan,
+    name: "HoSoCaNhan",
+  },
+  {
     path: "/knowledge",
     component: Knowledge,
     name: "Knowledge",
@@ -119,7 +134,7 @@ const routes = [
     path: "/dao-tao",
     component: DaoTao,
     name: "DaoTao",
-    redirect: { name: "TaiLieu" },
+    redirect: { name: "Course" },
     children: [
       {
         path: "",

@@ -1,19 +1,14 @@
-<script setup lang="ts">
-import { defineProps } from "vue";
-import { ref } from "vue";
-
-const props = defineProps({
-  topic: {
-    type: Object,
-    required: true,
+<script>
+export default {
+  props: {
+    topic: {
+      type: Object,
+    },
+    name: {
+      type: String,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-  },
-});
-
-const open = ref(false);
+};
 </script>
 
 <template>
@@ -25,7 +20,7 @@ const open = ref(false);
             class="flex items-center justify-start gap-2 py-4 max-lg:py-1 max-lg:gap-1"
           >
             <RouterLink
-            href="/"
+              href="/"
               class="text-color-text-breakcurmb text-font14 font-normal max-lg:text-xs cursor-pointer"
             >
               Trang chủ
@@ -36,7 +31,7 @@ const open = ref(false);
               class="max-lg:h-[8px]"
             />
             <RouterLink
-            href="/dao-tao/khoa-hoc"
+              href="/dao-tao/khoa-hoc"
               class="text-color-text-breakcurmb text-font14 font-normal max-lg:text-xs"
             >
               Khoá học
@@ -70,13 +65,13 @@ const open = ref(false);
                 </div>
               </div>
             </div>
-            <div class="absolute bottom-0 right-0 max-lg:right-[-7rem]">
+            <!-- <div class="absolute bottom-0 right-0 max-lg:right-[-7rem]">
               <img
                 src="@/assets/images/VNPT building 3.png"
                 alt="Icon"
                 class="max-lg:h-[142px]"
               />
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

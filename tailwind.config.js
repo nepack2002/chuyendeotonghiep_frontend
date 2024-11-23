@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
+    
     extend: {
+   
+     
+    
       fontSize: {
         font12 : ['12px', '18px'],
         font18 : ['18px', '27px'],
@@ -22,6 +26,27 @@ export default {
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(to right, #FFFFFF 38%, #FFFFFF 63%)',
+      },
+       keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        "finish-bar": {
+          '0%':   {width: '75%'},
+          '50%':  {width: '80%'},
+          '75%':  {width: '90%'},
+          '100%': {width: '95%'},
+        },
+        "clock": {
+          '100%': {transform: 'rotate(180deg)'}
+        }
+      },
+        animation: {
+        wiggle: 'wiggle 1s ease-in-out infinite',
+        'finish': 'finish-bar 250ms cubic-bezier(0.5, 0.72, 0.4, 0.82) forwards',
+        'clock': 'clock 1s ease-in-out infinite',
+        'spin-slow': 'spin 3s linear infinite'
       },
       spacing : {
         '10%' : '10%',
@@ -114,7 +139,9 @@ export default {
         'color-purple-2':"#7C88A8",
         'color-white-2':"#F6F8FC",
         "color-greend-3":"#ECF6F1",
-        "color-red-2":"#FFF5F4",
+        "color-red-2": "#FFF5F4",
+        'orange-background': 'rgb(var(--color-orange-background))',
+            'orange-text': 'rgb(var( --color-orange-text))',
         "color-orange-1":"#FFA100",
         "color-orange-2":"#FFFCF4",
         "arrow-2": "#A5ABCA",

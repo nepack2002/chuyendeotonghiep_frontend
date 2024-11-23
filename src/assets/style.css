@@ -182,7 +182,38 @@ body {
   padding: 16px 12px;
   border-bottom: 4px solid #005ed3;
 }
+.loader {
+  @apply animate-spin  border-4 rounded-full w-6 h-6 inline-block;
+}
+.Vue-Toastification__toast--warning.toast-custom {
+  @apply bg-[#dc3545];
+}
+.loader.loader-sm {
+  @apply w-4 h-4;
+}
 
+.loader.loader-lg {
+  @apply w-8 h-8;
+}
+
+.loader.loader-xl {
+  @apply w-10 h-10;
+}
+
+.loader.loader-xxl {
+  @apply w-14 h-14;
+}
+
+.loader.loader-pro-max {
+  @apply w-20 h-20 border-8;
+}
+
+.loader.loader-white {
+  @apply border-[#ffffff78] border-r-white;
+}
+.has-count {
+  @apply after:content-[''] after:block after:bg-light-warning after:w-[6px] after:h-[6px] after:w-[8px] after:h-[8px] after:rounded-full after:absolute after:top-[2px] after:right-[2px] before:content-[''] before:block before:bg-light-warning before:w-[6px] before:h-[6px] before:w-[8px] before:h-[8px] before:rounded-full before:absolute before:top-[2px] before:right-[2px] before:animate-ping relative;
+}
 @media screen and (max-width: 768px) {
   .menu-tab p.active {
     font-size: 16px;
@@ -259,14 +290,12 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:not(.sr-only) {
-  @apply relative rounded overflow-hidden appearance-none border-2 border-[#969DB8] after:absolute after:left-0 after:top-0 after:h-full after:w-full after:border-primary-brand  after:bg-[length:10px] after:bg-center after:bg-no-repeat after:content-[''] checked:border-none checked:bg-primary-brand disabled:checked:bg-check-ok focus:outline-none
+  @apply relative rounded overflow-hidden appearance-none border-2 border-[#969DB8] after:absolute after:left-0 after:top-0 after:h-full after:w-full after:border-primary-brand  after:bg-[length:10px] after:bg-center after:bg-no-repeat after:content-[''] checked:border-none checked:bg-primary-brand disabled:checked:bg-check-ok focus:outline-none;
 }
 
 input[type="checkbox"]:not(.sr-only).is_warning {
   @apply checked:bg-cam disabled:bg-cam disabled:after:bg-cam disabled:checked:after:bg-cam border-cam;
 }
-
-
 
 input[type="checkbox"]:not(.sr-only).is_true-gray {
   @apply checked:bg-input-blue-gray disabled:bg-input-blue-gray disabled:after:bg-input-blue-gray disabled:checked:after:bg-input-blue-gray border-input-blue-gray;

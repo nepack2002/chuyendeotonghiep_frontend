@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     noActiveSurveys() {
-      // Kiểm tra nếu không có khảo sát nào mà isExpired === false
       return !this.surveys.some((survey) => survey.isExpired === false);
     },
   },
@@ -64,7 +63,7 @@ export default {
       const due = new Date(dueDate);
       const today = new Date();
       const difference = due - today;
-      return Math.ceil(difference / (1000 * 60 * 60 * 24)); // Chuyển đổi thành số ngày
+      return Math.ceil(difference / (1000 * 60 * 60 * 24));
     },
   },
 };

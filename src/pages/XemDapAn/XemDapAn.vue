@@ -2,8 +2,8 @@
   <Header :name="nameHeader" :slug="slug" />
   <div class="py-8 max-md:py-0">
     <div class="md:container mx-auto">
-      <div class="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:gap-0">
-        <div class="col-span-3">
+      <div class="grid grid-cols-5 gap-0 max-md:grid-cols-1 max-md:gap-0">
+        <div class="col-span-4">
           <!-- Truyền câu hỏi vào CauHoi -->
           <CauHoi :questions="questions" />
         </div>

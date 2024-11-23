@@ -5,7 +5,7 @@
   
     <VeChungToi/>
   
-    <TiepTucHoc />
+    <!-- <TiepTucHoc /> -->
   
     <DeXuat />
   

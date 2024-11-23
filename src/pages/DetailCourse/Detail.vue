@@ -12,11 +12,15 @@ import Ranking from "./Ranking.vue";
         <div class="col-span-3 max-md:order-2 max-md:col-span-1">
           <Description :description="detail.description" />
 
-          <Lesson :lessons="lessonsData.lessons" :process="detail.process" />
+          <Lesson
+            :lessons="lessonsData.lessons"
+            :process="detail.process"
+            :slug="slug"
+          />
 
           <Document :documents="docData.docs" />
 
-          <Ranking />
+          <Ranking :courses="courses" @submitReview="handleSubmitReview" />
         </div>
         <div class="mt-[-50px] max-md:order-1 max-md:mt-0 z-[1]">
           <Infomation :course="detail" />
@@ -43,20 +47,41 @@ export default {
       slug: this.$route.params.slug,
       error: null,
       loading: true,
+      courses: {},
     };
   },
   methods: {
+    async handleSubmitReview(review) {
+      try {
+        // Gửi đánh giá
+        await axios.post(`/course/review/${this.slug}`, {
+          rate: review.rate,
+          comment: review.comment,
+        });
+
+        // Gọi lại API để cập nhật danh sách đánh giá
+        const ranking = await axios.get(`/course/review/${this.slug}`);
+        this.courses = ranking.data.data;
+      } catch (error) {
+        console.error("Có lỗi xảy ra khi gửi đánh giá:", error);
+      }
+    },
+
     async getInfo() {
       try {
-        const [response, lessonResponse, docResponse] = await Promise.all([
-          axios.get(`/course/${this.slug}`),
-          axios.get(`/material/list-lesson/${this.slug}`),
-          axios.get(`/material/list-document/${this.slug}`),
-        ]);
+        const [response, lessonResponse, docResponse, ranking] =
+          await Promise.all([
+            axios.get(`/course/${this.slug}`),
+            axios.get(`/material/list-lesson/${this.slug}`),
+            axios.get(`/material/list-document/${this.slug}`),
+            axios.get(`/course/review/${this.slug}`),
+          ]);
 
         this.detail = response.data.data;
+        console.log(this.detail);
         this.lessonsData = lessonResponse.data.data;
         this.docData = docResponse.data.data;
+        this.courses = ranking.data.data;
       } catch (error) {
         this.error = error.message;
       } finally {

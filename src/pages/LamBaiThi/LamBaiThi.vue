@@ -8,8 +8,8 @@
     </div>
     <div class="lg:container mx-auto">
       <form @submit.prevent>
-        <div class="lg:grid grid-cols-4 gap-3 max-sm:grid-cols-1">
-          <div class="col-span-3 max-sm:col-span-1 max-sm:order-2">
+        <div class="lg:grid grid-cols-5 gap-3 max-sm:grid-cols-1">
+          <div class="col-span-4 max-sm:col-span-1 max-sm:order-2">
             <CauHoi
               :dataQuestion="dataQuestion"
               @updateSelectedAnswers="updateSelectedAnswers"

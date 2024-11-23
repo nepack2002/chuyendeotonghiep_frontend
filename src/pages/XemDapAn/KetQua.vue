@@ -56,7 +56,7 @@
     </div>
 
     <!-- Chi tiết các câu hỏi -->
-    <div class="grid grid-cols-5 gap-2 max-md:grid-cols-7 mt-3">
+    <div class="grid grid-cols-5 gap-2 max-md:grid-cols-4 mt-3">
       <div
         v-for="(question, index) in detailResult"
         :key="question.id"

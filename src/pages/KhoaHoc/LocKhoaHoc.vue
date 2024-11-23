@@ -47,7 +47,7 @@
             @change="filterByCategory"
             class="py-2 px-3 border border-color-border w-full rounded-md focus:outline-none max-md:text-sm max-md:px-2 max-md:py-[10px]"
           >
-             <option value="">Tất cả</option>
+            <option value="">Tất cả</option>
             <option
               v-for="category in categories"
               :key="category.name"
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import debounce from "lodash/debounce";
+
 export default {
   props: {
     categories: Array,
@@ -83,21 +85,31 @@ export default {
     return {
       activeTab: "myCompetitions",
       selectedCategory: "",
-      searchQuery: "", // Biến lưu từ khóa tìm kiếm
+      searchQuery: "",
     };
   },
   methods: {
     selectTab(tab) {
       this.activeTab = tab;
-      console.log(tab);
       this.$emit("tabSelected", tab);
     },
     filterByCategory() {
       this.$emit("update:modelValue", this.selectedCategory);
     },
     handleSearch() {
-      this.$emit("searchQuery", this.searchQuery); // Gửi sự kiện khi có từ khóa tìm kiếm
+      this.debouncedSearch(this.searchQuery);
     },
+    emitSearch(query) {
+      this.$emit("searchQuery", query);
+    },
+  },
+  created() {
+    // Tạo một function debounce để trì hoãn việc phát sự kiện search
+    this.debouncedSearch = debounce(this.emitSearch, 1000);
+  },
+  beforeUnmount() {
+    // Hủy debounce khi component bị gỡ bỏ
+    this.debouncedSearch.cancel();
   },
 };
 </script>

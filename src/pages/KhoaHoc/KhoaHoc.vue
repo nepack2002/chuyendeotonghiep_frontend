@@ -86,6 +86,7 @@ export default {
   },
   watch: {
     selectedCategory() {
+      
       this.fetchData(); // Fetch data when category changes
     },
   },

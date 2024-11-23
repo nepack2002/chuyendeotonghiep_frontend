@@ -24,23 +24,38 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     //Đăng nhập
-    async login(email, password) {
-      try {
-        const response = await axios.post('/auth/student/', { email, password });
-        if (response.data && response.data.data) {
-
-          this.accessToken = response.data.data.accessToken;
-          this.refreshToken = response.data.data.refreshToken;
-          axios.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
-          this.errorMessage = null;
-
-        } else {
-          throw new Error('Unexpected response structure');
-        }
-      } catch (error) {
-        this.errorMessage = error.response?.data?.message || 'Login failed. Please check your credentials.';
-      }
-    },
+  async login(email, password) {
+  try {
+    const response = await axios.post('/auth/student/', { email, password });
+    if (response.data && response.data.data) { 
+      this.accessToken = response.data.data.accessToken;
+      this.refreshToken = response.data.data.refreshToken;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
+      this.errorMessage = null;
+    } else {
+      console.error('Unexpected response structure:', response);
+    }
+  } catch (error) {
+    // Kiểm tra cấu trúc lỗi từ server
+    if (error.response) {
+      console.error('Error response:', error.response);
+      
+      const errorData = error.response.data;
+      
+      // Hiển thị thông báo lỗi từ server nếu có
+      this.errorMessage = errorData?.error || 'Đã xảy ra lỗi khi đăng nhập.';
+    } else if (error.request) {
+      // Trường hợp không nhận được phản hồi từ server
+      console.error('No response received:', error.request);
+      this.errorMessage = 'Không thể kết nối tới server. Vui lòng thử lại.';
+    } else {
+      // Trường hợp lỗi khác (thiết lập request hoặc lỗi không xác định)
+      console.error('Unexpected error:', error.message);
+      this.errorMessage = 'Đã xảy ra lỗi không xác định.';
+    }
+  }
+}
+,
 
 
     async refreshTokenn() {
@@ -76,7 +91,7 @@ export const useAuthStore = defineStore('auth', {
       delete axios.defaults.headers.common['Authorization'];
 
       // (Tùy chọn) Chuyển hướng người dùng về trang đăng nhập
-      window.location.href = '/dang-nhap';
+      window.location.href = '/';
     },
     // Phương thức để khôi phục user từ localStorage khi ứng dụng khởi động
     restoreUser() {

@@ -1,6 +1,6 @@
 <template>
-  <div class="py-[50px] text-center bg-white flex-1">
-    <div class="container">
+  <div class="py-[50px] text-center bg-white flex-1 mx-auto">
+    <div class="container mx-auto">
       <div class="md:w-[500px] mx-auto mb-[60px]">
         <img src="@/assets/images/404-min.png" alt="" />
       </div>
