@@ -56,7 +56,8 @@ export default {
       selectedAnswers: {},
       slug: "",
       id: null,
-      timeDisplay:null,
+      timeDisplay: null,
+      isFullscreen: false,
     };
   },
   computed: {
@@ -117,12 +118,15 @@ export default {
 
       try {
         await axios.post(`/exam/submit/${this.id}`, payload);
-        localStorage.removeItem("remainingTime");
-        this.$router.back();
       } catch (error) {
         console.error("Error submitting answers:", error);
+      } finally {
+        clearInterval(this.countdownInterval); // Dừng countdown
+        localStorage.removeItem("remainingTime"); // Xóa remainingTime
+        this.$router.back(); // Chuyển trang
       }
     },
+
     startCountdown() {
       let totalSeconds =
         Number(localStorage.getItem("remainingTime")) || this.submitTime * 60;
@@ -161,9 +165,110 @@ export default {
     goBack() {
       this.openThongBaoModal();
     },
+    // Hàm kiểm tra trạng thái fullscreen
+    checkFullscreen() {
+      this.isFullscreen = !!document.fullscreenElement;
+    },
+    // Mở fullscreen
+    enableFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement
+          .requestFullscreen()
+          .then(() => {
+            console.log("Fullscreen activated!");
+          })
+          .catch((err) => {
+            console.error("Failed to enable fullscreen:", err);
+          });
+      }
+    },
+    // Tự động nộp bài nếu thoát fullscreen
+    handleExitFullscreen() {
+      if (!document.fullscreenElement) {
+        alert(
+          "Bạn đã thoát chế độ toàn màn hình. Hệ thống sẽ tự động nộp bài."
+        );
+        // Gọi API để nộp bài
+        this.onSubmit().then(() => {
+          // Chuyển hướng hoặc thông báo
+        });
+      }
+    },
+    preventRightClick(event) {
+      event.preventDefault();
+    },
+    preventKeyActions(event) {
+      if (
+        event.key === "F12" ||
+        (event.ctrlKey &&
+          event.shiftKey &&
+          ["I", "C", "J", "N"].includes(event.key))
+      ) {
+        event.preventDefault();
+      }
+      if (event.altKey && event.key === "Tab") {
+        event.preventDefault();
+      }
+    },
+    preventTabSwitch() {
+      if (document.hidden) {
+        alert("Bạn không được chuyển tab!");
+        this.onSubmit(); // Tự động nộp bài
+      }
+    },
+    detectDevTools() {
+      if (
+        window.outerHeight - window.innerHeight > 100 ||
+        window.outerWidth - window.innerWidth > 100
+      ) {
+        location.reload(); // Reload trang hoặc thực hiện hành động khác
+      }
+    },
+    handleKeyDown(event) {
+      // Chặn Ctrl
+      if (event.ctrlKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault();
+      }
+
+      // Cảnh báo khi nhấn Alt + Tab
+      if (event.altKey) {
+        event.preventDefault();
+      }
+    },
   },
   mounted() {
+    // Khi trang được mount, mở fullscreen và gọi API
+    this.enableFullscreen();
     this.fetchQuestions();
+    // this.preventTabOutAndDevTools();
+    // Lắng nghe sự kiện thay đổi fullscreen
+    document.addEventListener("fullscreenchange", this.checkFullscreen);
+    document.addEventListener("fullscreenchange", this.handleExitFullscreen);
+    document.addEventListener("contextmenu", this.preventRightClick);
+    document.addEventListener("keydown", this.preventKeyActions);
+    document.addEventListener("visibilitychange", this.preventTabSwitch);
+    window.addEventListener("resize", this.detectDevTools);
+    document.addEventListener("keydown", this.handleKeyDown);
+  },
+  beforeUnmount() {
+    // Xóa sự kiện khi component bị destroy
+    document.removeEventListener("fullscreenchange", this.checkFullscreen);
+    document.removeEventListener("fullscreenchange", this.handleExitFullscreen);
+    document.removeEventListener("contextmenu", this.preventRightClick);
+    document.removeEventListener("keydown", this.preventKeyActions);
+    document.removeEventListener("visibilitychange", this.preventTabSwitch);
+    window.removeEventListener("resize", this.detectDevTools);
+    document.removeEventListener("keydown", this.handleKeyDown);
+    if (document.fullscreenElement) {
+      document
+        .exitFullscreen()
+        .then(() => {
+          console.log("Exited fullscreen successfully.");
+        })
+        .catch((err) => {
+          console.error("Error exiting fullscreen:", err);
+        });
+    }
   },
 };
 </script>
