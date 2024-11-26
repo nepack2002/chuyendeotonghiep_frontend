@@ -48,7 +48,7 @@ export default {
     },
     async fetchData() {
       const apiUrl =
-        this.tab === "myCompetitions" ? "/exam/list" : "/exam/list";
+        this.tab === "myCompetitions" ? "/exam/have-attend/" : "/exam/list";
       try {
         const response = await axios.get(apiUrl, {
           params: {

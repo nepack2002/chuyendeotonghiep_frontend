@@ -148,7 +148,7 @@ export default {
       try {
         const response = await axios.post("/student/forgot_password/", {
           email: this.email,
-          origin: "https://localhost:5173",
+          origin: "http://localhost:5173",
         });
 
         // Kiểm tra nếu mã trả về là 200

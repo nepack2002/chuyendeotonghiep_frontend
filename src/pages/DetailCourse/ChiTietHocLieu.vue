@@ -100,7 +100,7 @@ export default {
             "vi-VN"
           ),
           description: lessonDetail.description,
-          context: lessonDetail.context,
+          context: "http://localhost:5000/videos/" + lessonDetail.context,
         };
 
         this.courseDetail = courseResponse.data.data.process;
