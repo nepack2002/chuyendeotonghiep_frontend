@@ -10,9 +10,18 @@ export default {
       required: false, // Đảm bảo slug là bắt buộc
     },
   },
+  data() {
+    return { image: {} };
+  },
   computed: {
     // Sử dụng mapState để lấy state từ Pinia
     ...mapState(useAuthStore, ["user"]),
+    userAvatar() {
+      // Nếu user.image có giá trị, thêm tiền tố; nếu không, sử dụng ảnh mặc định.
+      return this.image
+        ? `http://localhost:5000/${this.user.avatar}`
+        : "@/assets/images/Default.svg";
+    },
   },
 };
 </script>
@@ -22,7 +31,8 @@ export default {
     <div class="container mx-auto">
       <div class="flex justify-between items-center gap-3 py-3">
         <div class="flex items-center gap-3">
-          <router-link v-if="slug"
+          <router-link
+            v-if="slug"
             :to="{ name: 'competision-detail', params: { id: slug } }"
             class="flex gap-3 cursor-pointer max-lg:hidden"
           >
@@ -40,12 +50,10 @@ export default {
 
         <div class="col-span-3 flex items-center gap-6 max-lg:hidden">
           <div class="flex items-center gap-1 relative">
-            <div>
-              <img
-                src="../../assets/images/Default.svg"
-                alt="Avatar"
-                class="w-full h-auto object-cover max-md:h-8"
-              />
+            <div
+              class="max-w-10 max-h-10 overflow-hidden rounded-full max-sm:max-h-6"
+            >
+              <img :src="userAvatar" alt="Avatar" />
             </div>
             <div class="flex gap-1 items-center">
               <p
