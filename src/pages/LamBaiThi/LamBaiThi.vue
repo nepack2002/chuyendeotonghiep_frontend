@@ -137,9 +137,7 @@ export default {
 
       this.countdownInterval = setInterval(() => {
         if (totalSeconds <= 0) {
-          clearInterval(this.countdownInterval);
-          localStorage.removeItem("remainingTime");
-          this.$emit("submitExam");
+          this.onSubmit();
         } else {
           totalSeconds -= 1;
           localStorage.setItem("remainingTime", totalSeconds);
