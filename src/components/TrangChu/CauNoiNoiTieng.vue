@@ -1,9 +1,8 @@
-
 <template>
   <div class="py-14 course bg-training relative">
     <div class="container mx-auto">
       <p
-        class="text-font36lh font-bold text-color-primary pb-3  max-md:text-font24px"
+        class="text-font36lh font-bold text-color-primary pb-3 max-md:text-font24px"
       >
         Các câu nói nổi tiếng
       </p>
@@ -39,16 +38,12 @@
                         </p>
                       </div>
                       <div>
-                        <img
-                          src="@/assets/images/Icon.svg"
-                          alt="Icon"
-                          class="max-md:h-8"
-                        />
+                        <img :src="quote.icon" alt="Icon" class="max-md:h-8" />
                       </div>
                     </div>
                     <div class="md:hidden">
                       <img
-                        src="@/assets/images/image-speech.png"
+                        :src="quote.image"
                         alt="Image"
                         class="object-cover rounded-lg h-[140px] w-auto"
                       />
@@ -57,7 +52,7 @@
                 </div>
                 <div class="flex-1 max-md:hidden">
                   <img
-                    src="@/assets/images/image-speech.png"
+                    :src="quote.image"
                     alt="Image"
                     class="object-cover rounded-lg h-52 w-auto"
                   />
@@ -109,93 +104,79 @@
   </div>
 </template>
 
-
 <script>
-  import { Splide, SplideSlide } from "@splidejs/vue-splide";
-
-  export default {
-    components: {
-      Splide,
-      SplideSlide,
-    },
-    data() {
-      return {
-        splideOptions: {
-          perPage: 2,
-          perMove: 1,
-          gap: "30px",
-          arrows: false,
-          pagination: false,
-          breakpoints: {
-            768: {
-              perPage: 1,
-              perMove: 1,
-              gap: "0.5rem",
-              pagination: true,
-            },
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
+import image1 from "@/assets/images/image-speech.png";
+import image2 from "@/assets/images/image64.png";
+import icon from "@/assets/images/Icon.svg";
+export default {
+  components: {
+    Splide,
+    SplideSlide,
+  },
+  data() {
+    return {
+      splideOptions: {
+        perPage: 2,
+        perMove: 1,
+        gap: "30px",
+        arrows: false,
+        pagination: false,
+        breakpoints: {
+          768: {
+            perPage: 1,
+            perMove: 1,
+            gap: "0.5rem",
+            pagination: true,
           },
         },
-        quotes: [
-          {
-            id: 1,
-            text: "“ Học vấn do người siêng năng đạt được, tài sản do người tinh tế sở hữu, quyền lợi do người dũng cảm nắm giữ, thiên đường do người lương thiện xây dựng.”",
-            author: "Franklin",
-            occupation: "Chính trị gia",
-            image: "@/assets/images/image-speech.png",
-            icon: "@/assets/images/Icon.svg",
-          },
-          {
-            id: 2,
-            text: "“ Những gì chúng ta biết vào ngày hôm nay sẽ lỗi thời vào ngày hôm sau. Nếu chúng ta ngừng học thì chúng ta sẽ ngừng phát triển.”",
-            author: "Doroty Billington",
-            occupation: "Nhà hóa học người Anh",
-            image: "@/assets/images/image-speech.png",
-            icon: "@/assets/images/Icon.svg",
-          },
-          {
-            id: 3,
-            text: "“ Học vấn do người siêng năng đạt được, tài sản do người tinh tế sở hữu, quyền lợi do người dũng cảm nắm giữ, thiên đường do người lương thiện xây dựng.”",
-            author: "Franklin",
-            occupation: "Chính trị gia",
-            image: "@/assets/images/image-speech.png",
-            icon: "@/assets/images/Icon.svg",
-          },
-          {
-            id: 4,
-            text: "“ Học vấn do người siêng năng đạt được, tài sản do người tinh tế sở hữu, quyền lợi do người dũng cảm nắm giữ, thiên đường do người lương thiện xây dựng.”",
-            author: "Franklin",
-            occupation: "Chính trị gia",
-            image: "@/assets/images/image-speech.png",
-            icon: "@/assets/images/Icon.svg",
-          },
-        ],
-        groupedQuotes: [],
-      };
-    },
-    mounted() {
-      this.handleResize();
-      window.addEventListener("resize", this.handleResize);
-    },
-    beforeDestroy() {
-      window.removeEventListener("resize", this.handleResize);
-    },
-    methods: {
-      handleResize() {
-        if (window.innerWidth < 768) {
-          this.groupedQuotes = this.groupQuotes(this.quotes, 2);
-        } else {
-          this.groupedQuotes = this.quotes.map((quote) => [quote]);
-        }
       },
-      groupQuotes(quotes, groupSize) {
-        const grouped = [];
-        for (let i = 0; i < quotes.length; i += groupSize) {
-          grouped.push(quotes.slice(i, i + groupSize));
-        }
-        return grouped;
-      },
+      quotes: [
+        {
+          id: 1,
+          text: "“ Học vấn do người siêng năng đạt được, tài sản do người tinh tế sở hữu, quyền lợi do người dũng cảm nắm giữ, thiên đường do người lương thiện xây dựng.”",
+          author: "Franklin",
+          occupation: "Chính trị gia",
+          image: image1, // Sử dụng ảnh từ import
+          icon: icon,
+        },
+        {
+          id: 2,
+          text: "“ Những gì chúng ta biết vào ngày hôm nay sẽ lỗi thời vào ngày hôm sau. Nếu chúng ta ngừng học thì chúng ta sẽ ngừng phát triển.”",
+          author: "Doroty Billington",
+          occupation: "Nhà hóa học người Anh",
+          image: image2, // Sử dụng ảnh từ import
+          icon: icon,
+        },
+        // Thêm các mục khác
+      ],
+      groupedQuotes: [],
+    };
+  },
+  mounted() {
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  methods: {
+    handleResize() {
+      if (window.innerWidth < 768) {
+        this.groupedQuotes = this.groupQuotes(this.quotes, 2);
+      } else {
+        this.groupedQuotes = this.quotes.map((quote) => [quote]);
+      }
     },
-  };
+    groupQuotes(quotes, groupSize) {
+      const grouped = [];
+      for (let i = 0; i < quotes.length; i += groupSize) {
+        grouped.push(quotes.slice(i, i + groupSize));
+      }
+      return grouped;
+    },
+  },
+};
 </script>
 
 <style scoped>

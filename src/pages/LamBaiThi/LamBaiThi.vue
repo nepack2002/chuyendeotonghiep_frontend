@@ -23,6 +23,7 @@
               :selectedAnswers="selectedAnswers"
               @submitExam="onSubmit"
               :timeDisplay="timeDisplay"
+              :remainingSeconds="remainingSeconds"
             />
           </div>
         </div>
@@ -58,6 +59,8 @@ export default {
       id: null,
       timeDisplay: null,
       isFullscreen: false,
+      remainingSeconds: "",
+      isSubmitting: false,
     };
   },
   computed: {
@@ -121,6 +124,7 @@ export default {
       } catch (error) {
         console.error("Error submitting answers:", error);
       } finally {
+        this.isSubmitting = false;
         clearInterval(this.countdownInterval); // Dừng countdown
         localStorage.removeItem("remainingTime"); // Xóa remainingTime
         this.$router.back(); // Chuyển trang
@@ -145,6 +149,7 @@ export default {
           );
           const seconds = String(totalSeconds % 60).padStart(2, "0");
           this.timeDisplay = `${minutes}:${seconds}`;
+          this.remainingSeconds = totalSeconds;
         }
       }, 1000);
     },
@@ -184,14 +189,12 @@ export default {
     },
     // Tự động nộp bài nếu thoát fullscreen
     handleExitFullscreen() {
-      if (!document.fullscreenElement) {
+      if (!document.fullscreenElement && !this.isSubmitting) {
         alert(
           "Bạn đã thoát chế độ toàn màn hình. Hệ thống sẽ tự động nộp bài."
         );
-        // Gọi API để nộp bài
-        this.onSubmit().then(() => {
-          // Chuyển hướng hoặc thông báo
-        });
+        this.isSubmitting = true; // Đánh dấu đang nộp bài
+        this.onSubmit();
       }
     },
     preventRightClick(event) {
@@ -211,17 +214,10 @@ export default {
       }
     },
     preventTabSwitch() {
-      if (document.hidden) {
+      if (document.hidden && !this.isSubmitting) {
         alert("Bạn không được chuyển tab!");
-        this.onSubmit(); // Tự động nộp bài
-      }
-    },
-    detectDevTools() {
-      if (
-        window.outerHeight - window.innerHeight > 100 ||
-        window.outerWidth - window.innerWidth > 100
-      ) {
-        location.reload(); // Reload trang hoặc thực hiện hành động khác
+        this.isSubmitting = true; // Đánh dấu đang nộp bài
+        this.onSubmit();
       }
     },
     handleKeyDown(event) {
@@ -247,7 +243,6 @@ export default {
     document.addEventListener("contextmenu", this.preventRightClick);
     document.addEventListener("keydown", this.preventKeyActions);
     document.addEventListener("visibilitychange", this.preventTabSwitch);
-    window.addEventListener("resize", this.detectDevTools);
     document.addEventListener("keydown", this.handleKeyDown);
   },
   beforeUnmount() {
@@ -257,7 +252,6 @@ export default {
     document.removeEventListener("contextmenu", this.preventRightClick);
     document.removeEventListener("keydown", this.preventKeyActions);
     document.removeEventListener("visibilitychange", this.preventTabSwitch);
-    window.removeEventListener("resize", this.detectDevTools);
     document.removeEventListener("keydown", this.handleKeyDown);
     if (document.fullscreenElement) {
       document

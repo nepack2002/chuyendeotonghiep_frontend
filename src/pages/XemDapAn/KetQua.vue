@@ -136,8 +136,12 @@ export default {
   },
   methods: {
     isCorrect(question) {
+      const { answer, correctAns } = question;
+
+      // Sắp xếp và so sánh
       return (
-        JSON.stringify(question.answer) === JSON.stringify(question.correctAns)
+        JSON.stringify([...answer].sort()) ===
+        JSON.stringify([...correctAns].sort())
       );
     },
     buttonClass(question) {

@@ -59,12 +59,24 @@ export default {
     },
   },
   methods: {
-    getDaysLeft(dueDate) {
-      const due = new Date(dueDate);
+    getDaysLeft(dueAt) {
+      // Chuyển đổi định dạng "30/11/2024 : 07:00:00" thành "2024-11-30T07:00:00"
+      const [day, month, yearWithTime] = dueAt.split('/');
+      const [year, time] = yearWithTime.split(' : ');
+      const formattedDate = `${year}-${month}-${day}T${time}`;
+
+      // Tạo đối tượng Date từ chuỗi đã chuẩn hóa
+      const due = new Date(formattedDate);
       const today = new Date();
+
+      // Đặt thời gian về 00:00:00 để tính chỉ phần ngày
+      due.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      // Tính chênh lệch ngày
       const difference = due - today;
       return Math.ceil(difference / (1000 * 60 * 60 * 24));
-    },
-  },
+    }
+  }
 };
 </script>

@@ -27,6 +27,12 @@
           >
             <PopupThanhCong />
           </div>
+          <div
+            class="fixed top-0 left-0 right-0 bottom-0 bg-[#000] bg-modal flex justify-center items-center z-50"
+            v-if="openYeuCauLam"
+          >
+            <YeuCauLam @close="onCloseYeuCauLam" />
+          </div>
         </div>
       </div>
     </div>
@@ -36,6 +42,7 @@
 <script>
 import PopupThongBao from "./PopupThongBao.vue";
 import PopupThanhCong from "./PopupThanhCong.vue";
+import YeuCauLam from "./YeuCauLam.vue";
 import CauHoi from "./CauHoi.vue";
 import ThoiGian from "./ThoiGian.vue";
 import Header from "./Header.vue";
@@ -44,6 +51,7 @@ import axios from "axios";
 export default {
   components: {
     PopupThongBao,
+    YeuCauLam,
     PopupThanhCong,
     CauHoi,
     ThoiGian,
@@ -51,13 +59,12 @@ export default {
   },
   data() {
     return {
-      questions: [
-        // ... câu hỏi ở đây ...
-      ],
+      questions: [],
       answers: [],
       submitted: false,
       openThongBao: false,
       openThanhCong: false,
+      openYeuCauLam: false, // Quản lý trạng thái của popup YeuCauLam
       slug: this.$route.params.id,
       surveyId: "",
       name: "",
@@ -87,7 +94,9 @@ export default {
         this.answers.length !== this.questions.length ||
         this.answers.some((answer) => answer == null)
       ) {
-        alert("Vui lòng trả lời tất cả các câu hỏi trước khi nộp!");
+        this.openThongBao = false; // Đảm bảo popup thông báo chính đóng lại
+        this.openYeuCauLam = true; // Mở popup yêu cầu làm
+        return;
         return;
       }
 
@@ -105,7 +114,9 @@ export default {
 
       this.openThongBao = false;
     },
-
+    onCloseYeuCauLam() {
+      this.openYeuCauLam = false;
+    },
     openThongBaoHandler() {
       this.openThongBao = true; // Mở popup thông báo
     },

@@ -13,7 +13,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <div class="p-3 bg-white rounded-lg">
+  <div class="p-3 bg-white rounded-lg sticky top-[100px]">
     <div
       class="flex gap-2 items-start border-b border-color-button-change-slide p-2"
     >
@@ -61,7 +61,7 @@ const open = ref(false);
         v-if="course.process"
         class="px-4 py-10px bg-[#005ED3] rounded-lg text-white text-sm w-full"
       >
-        Tiếp tục học
+        Bạn đã đăng ký khóa học
       </button>
       <button
         v-else-if="course.type === 0"

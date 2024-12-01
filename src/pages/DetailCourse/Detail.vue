@@ -18,12 +18,12 @@ import Ranking from "./Ranking.vue";
             :slug="slug"
           />
 
-          <Document :documents="docData.docs" />
+          <Document :documents="docData.docs" :course="courses" />
 
           <Ranking :courses="courses" @submitReview="handleSubmitReview" />
         </div>
         <div class="mt-[-50px] max-md:order-1 max-md:mt-0 z-[1]">
-          <Infomation :course="detail" />
+          <Infomation :course="detail" @register="register" />
         </div>
       </div>
     </div>
@@ -51,15 +51,21 @@ export default {
     };
   },
   methods: {
+  async register(){
+    try {
+      await axios.post(`course/register/${this.slug}`);
+      alert("Đăng ký thành công!");
+    } catch (error) {
+      console.error("Có lỗi xảy ra khi đăng ký:", error);
+    }
+  },
     async handleSubmitReview(review) {
       try {
-        // Gửi đánh giá
         await axios.post(`/course/review/${this.slug}`, {
           rate: review.rate,
           comment: review.comment,
         });
 
-        // Gọi lại API để cập nhật danh sách đánh giá
         const ranking = await axios.get(`/course/review/${this.slug}`);
         this.courses = ranking.data.data;
       } catch (error) {

@@ -24,7 +24,7 @@
             class="text-base max-md:text-font14 font-medium text-color-primary-2"
           >
             <!-- {{ rating }} -->
-            5
+            4
           </p>
           <div class="flex justify-center">
             <img

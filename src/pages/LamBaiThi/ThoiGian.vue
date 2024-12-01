@@ -2,12 +2,22 @@
   <!-- Đồng hồ đếm ngược -->
   <div class="flex justify-center items-center py-5 max-sm:py-2 gap-2">
     <img
+      v-if="remainingSeconds > 300 && timeDisplay"
       src="@/assets/images/alarm-clock 1.svg"
       alt="Clock"
       class="max-md:h-8 max-sm:h-4"
     />
+    <img
+      v-else-if="remainingSeconds <= 300 && timeDisplay"
+      src="@/assets/images/timered.png"
+      alt="Clock"
+      class="max-md:max-h-8 max-sm:max-h-4"
+    />
     <p
-      class="text-color-greend-2 text-4xl font-bold max-md:text-3xl max-sm:text-xs"
+      :class="[
+        'text-4xl font-bold max-md:text-3xl max-sm:text-xs',
+        remainingSeconds > 300 ? 'text-color-greend-2' : 'text-red-500',
+      ]"
     >
       {{ timeDisplay }}
     </p>
@@ -63,6 +73,7 @@ export default {
     dataQuestion: Array,
     selectedAnswers: Object,
     timeDisplay: String,
+    remainingSeconds: Number,
   },
   components: { Modal, PopupThongBao },
   data() {

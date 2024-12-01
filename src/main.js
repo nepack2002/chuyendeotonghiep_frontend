@@ -59,10 +59,12 @@ axios.interceptors.response.use(
     // Kiểm tra lỗi 401 và thử lại yêu cầu
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       if (originalRequest.url === '/auth/refresh') {
-        authStore.logout();
-        window.location.href = '/dang-nhap';
-        return Promise.reject(error);
-      }
+         localStorage.setItem('returnUrl', window.location.pathname); // Lưu URL hiện tại
+
+  authStore.logout();
+  window.location.href = '/dang-nhap';
+  return Promise.reject(error);
+}
 
       originalRequest._retry = true;
 

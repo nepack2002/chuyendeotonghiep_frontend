@@ -67,7 +67,7 @@
             class="py-5 max-md:py-4 mx-4 text-center md:border-b border-color-border"
           >
             <button
-              @click="joinExam"
+              @click="openThongBaoModal"
               class="px-4 py-2 bg-color-primary-2 rounded-lg text-white text-sm max-md:w-[200px]"
             >
               <p class="max-md:text-xs">Tham gia vòng thi</p>
@@ -83,19 +83,30 @@
         </div>
       </div>
     </div>
+    <Modal ref="PopUpCanhBao">
+      <CanhBaoManHinh @close="closeThongBaoModal" @submit="confirmJoinExam" />
+    </Modal>
+     <Modal ref="PopUpDevTool">
+      <CanhBaoDevTools @close="closeDevToolModal" />
+    </Modal>
   </div>
 </template>
 
 <script>
 import ResultTest from "./ResultTest.vue";
 import Header from "@/components/ParitialCompetision/Header.vue";
-
+import CanhBaoManHinh from "./CanhBaoManHinh.vue";
+import CanhBaoDevTools from "./CanhBaoDevTools.vue";
+import Modal from "@/components/global/Modal.vue";
 import axios from "axios";
 
 export default {
   components: {
     ResultTest,
     Header,
+    CanhBaoManHinh,
+    CanhBaoDevTools,
+    Modal,
   },
   data() {
     return {
@@ -127,7 +138,32 @@ export default {
         this.loading = false;
       }
     },
-    async joinExam() {
+    openThongBaoModal() {
+      this.$refs.PopUpCanhBao.openModal();
+    },
+    closeThongBaoModal() {
+      this.$refs.PopUpCanhBao.closeModal();
+    },
+     openDevToolModal() {
+      this.$refs.PopUpDevTool.openModal();
+    },
+    closeDevToolModal() {
+      this.$refs.PopUpDevTool.closeModal();
+    },
+    isDevToolsOpen() {
+      const threshold = 160; // Kích thước nhỏ hơn giá trị này có thể là DevTools đang mở
+      const isOpen =
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold;
+
+      return isOpen;
+    },
+    async confirmJoinExam() {
+      if (this.isDevToolsOpen()) {
+        this.openDevToolModal();
+        return;
+      }
+      this.closeThongBaoModal(); // Đóng modal trước
       try {
         // Gọi API để tham gia vòng thi
         const response = await axios.get(
@@ -142,7 +178,7 @@ export default {
       }
     },
     goBack() {
-      this.$router.push({ name: "Competision"});
+      this.$router.push({ name: "Competision" });
     },
   },
   mounted() {

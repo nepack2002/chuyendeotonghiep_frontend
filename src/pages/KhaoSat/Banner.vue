@@ -18,18 +18,7 @@
             </p>
           </div>
           <div class="md:py-6 w-4/6 max-md:w-full max-md:mb-[18px]">
-            <form
-              action="#"
-              class="bg-white py-1 pl-4 pr-1 rounded-lg flex justify-between"
-            >
-              <input
-                type="text"
-                v-model="searchQuery"
-                @input="handleSearch"
-                placeholder="Nhập tìm kiếm"
-                class="w-full focus:outline-none max-md:text-base text-color-gray font-normal py-2"
-              />
-            </form>
+           
           </div>
         </div>
         <div>

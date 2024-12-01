@@ -17,7 +17,7 @@
           <p
             class="text-font80px text-color-primary-2 font-semibold max-lg:text-[64px]"
           >
-            {{ courses.avgRate }}
+            {{ courses.avgRate ?? 0 }}
           </p>
 
           <StarRating

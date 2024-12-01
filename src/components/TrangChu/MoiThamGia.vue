@@ -59,7 +59,6 @@
             class="relative max-md:w-[269px]"
           >
             <CardKhaoSat
-            v-if="getDaysLeft(survey.dueAt)  <0"
               :title="survey.name"
               :slug="survey.slug"
               :attend="survey.attend"

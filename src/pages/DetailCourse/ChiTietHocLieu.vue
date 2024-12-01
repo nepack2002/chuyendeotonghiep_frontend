@@ -1,7 +1,7 @@
 <template>
   <Breadcrumb :items="breadcrumbItems" />
   <div class="bg-white pt-8 max-md:pt-3 max-md:min-h-[1000px] min-h-screen">
-    <div class="container">
+    <div class="container mx-auto">
       <p
         class="text-font28 max-md:text-font18 text-color-text-1 font-bold mb-5 max-md:mb-3"
       >
@@ -38,10 +38,7 @@
       </div>
       <Lesson :lessons="lessonsData" :process="courseDetail" :slug="slugs" />
 
-      <div
-        class="mt-6 text-color-text-1 text-base"
-        v-html="detail.description"
-      ></div>
+      
     </div>
   </div>
 </template>
@@ -58,8 +55,8 @@ export default {
     return {
       breadcrumbItems: [
         { label: "Trang chủ", link: "Home" },
-        // { label: "Học liệu", link: "HocLieu" },
-        // { label: "Chi tiết học liệu", link: "" },
+        { label: "Khóa học", link: "Course" },
+        { label: "Chi tiết khóa học", link: "" },
       ],
       detail: {
         name: "",

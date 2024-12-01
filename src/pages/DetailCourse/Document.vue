@@ -6,6 +6,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  course: {
+    type: Array,
+    required: true,
+  }
 });
 
 // State for showing more documents
@@ -70,7 +74,7 @@ const downloadFile = async (context: string) => {
               <div
                 v-for="document in displayedDocuments"
                 :key="document.id"
-                class="grid grid-cols-2 max-lg:grid-cols-1 border-b border-color-border-2 py-3 relative group"
+                class="flex border-b border-color-border-2 py-3 relative group"
               >
                 <div class="flex items-center gap-2 max-lg:w-full">
                   <img
@@ -85,11 +89,12 @@ const downloadFile = async (context: string) => {
 
                 <!-- "Tải xuống" button chỉ hiển thị khi có trường context -->
                 <div
-                  v-if="document.context"
+                  v-if="document.context && course.process"
                   class="absolute inset-0 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity max-lg:mt-1 max-lg:justify-between"
                 >
                   <div class="max-lg:order-2">
                     <button
+                   
                       @click="downloadFile(document.context)"
                       class="px-4 py-[5px] bg-color-primary-2 rounded-lg text-white text-sm flex gap-2 items-center"
                     >
@@ -104,14 +109,12 @@ const downloadFile = async (context: string) => {
                     </button>
                   </div>
                 </div>
-
-                <!-- Thông báo nếu không có context -->
-                <p
+                <div
                   v-else
-                  class="text-color-gray text-sm italic max-lg:mt-2 text-center"
+                  class="text-color-gray text-sm italic max-lg:mt-2 text-center text-nowrap"
                 >
-                  Không khả dụng
-                </p>
+                  Bạn chưa đăng ký khóa học
+                </div>
               </div>
             </div>
           </div>

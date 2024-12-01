@@ -103,12 +103,12 @@ export default {
   <div>
     <Banner @searchQuery="handleSearchQuery"/>
 
-    <div class="md:container mx-auto">
-      <Filter
+    <div class="container mx-auto">
+      <!-- <Filter
         @tab-selected="handleTabSelected"
        
-      />
-
+      /> -->
+      <h1 class="font-bold text-color-text-1 text-font24px my-5 text-center">Danh sách khảo sát</h1>
       <ResultSearch :surveys="currentItems" />
     </div>
   </div>
