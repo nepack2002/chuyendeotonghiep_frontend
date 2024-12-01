@@ -11,7 +11,7 @@
       v-else-if="remainingSeconds <= 300 && timeDisplay"
       src="@/assets/images/timered.png"
       alt="Clock"
-      class="max-md:max-h-8 max-sm:max-h-4"
+      class="max-md:max-h-8 max-sm:max-h-4 animate-wiggle"
     />
     <p
       :class="[

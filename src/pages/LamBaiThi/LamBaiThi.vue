@@ -33,6 +33,25 @@
   <Modal ref="PopUpCanhBao">
     <PopupCanhBao @close="closeThongBaoModal" @submit="onSubmit" />
   </Modal>
+  <div
+    v-if="showWarningModal"
+    class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+  >
+    <div class="bg-white p-6 rounded shadow-lg text-center max-w-md">
+      <h3 class="text-lg font-semibold mb-4">Cảnh báo</h3>
+      <p class="text-gray-600 mb-4">
+        Bạn không được chuyển tab hoặc thoát chế độ toàn màn hình!<br />
+        Hệ thống sẽ tự động nộp bài trong
+        <span class="text-red-500 font-bold">{{ warningCountdown }}</span> giây.
+      </p>
+      <button
+        class="bg-red-500 text-white px-4 py-2 rounded"
+        @click="handleCloseWarningModal"
+      >
+        Đóng và tiếp tục nộp bài
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -61,6 +80,9 @@ export default {
       isFullscreen: false,
       remainingSeconds: "",
       isSubmitting: false,
+      showWarningModal: false,
+      warningCountdown: 5, // Đếm ngược 5 giây
+      warningInterval: null, // Interval cho đếm ngược
     };
   },
   computed: {
@@ -185,16 +207,47 @@ export default {
           });
       }
     },
-    // Tự động nộp bài nếu thoát fullscreen
+
+
+    // Hàm hiển thị modal cảnh báo và bắt đầu đếm ngược
+    openWarningModal() {
+      this.showWarningModal = true; // Hiển thị modal cảnh báo
+      this.startWarningCountdown(); // Bắt đầu đếm ngược
+    },
+    // Hàm đếm ngược 5 giây
+    startWarningCountdown() {
+      this.warningCountdown = 5; 
+      if (this.warningInterval) clearInterval(this.warningInterval); 
+      this.warningInterval = setInterval(() => {
+        if (this.warningCountdown > 1) {
+          this.warningCountdown--;
+        } else {
+          this.handleCloseWarningModal();
+        }
+      }, 1000);
+    },
+    // Hàm đóng modal cảnh báo và nộp bài
+    handleCloseWarningModal() {
+      this.showWarningModal = false; // Đóng modal cảnh báo
+      clearInterval(this.warningInterval); // Dừng đếm ngược
+      this.isSubmitting = true; // Đánh dấu trạng thái nộp bài
+      this.onSubmit(); // Tự động nộp bài
+    },
+    // Khi thoát fullscreen
     handleExitFullscreen() {
       if (!document.fullscreenElement && !this.isSubmitting) {
-        alert(
-          "Bạn đã thoát chế độ toàn màn hình. Hệ thống sẽ tự động nộp bài."
-        );
-        this.isSubmitting = true; // Đánh dấu đang nộp bài
-        this.onSubmit();
+        this.openWarningModal(); // Mở modal cảnh báo
       }
     },
+    // Khi chuyển tab
+    preventTabSwitch() {
+      if (document.hidden && !this.isSubmitting) {
+        this.openWarningModal(); // Mở modal cảnh báo
+      }
+    },
+
+
+
     preventRightClick(event) {
       event.preventDefault();
     },
@@ -209,13 +262,6 @@ export default {
       }
       if (event.altKey && event.key === "Tab") {
         event.preventDefault();
-      }
-    },
-    preventTabSwitch() {
-      if (document.hidden && !this.isSubmitting) {
-        alert("Bạn không được chuyển tab!");
-        this.isSubmitting = true; // Đánh dấu đang nộp bài
-        this.onSubmit();
       }
     },
     handleKeyDown(event) {
