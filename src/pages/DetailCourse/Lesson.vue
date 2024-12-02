@@ -17,7 +17,7 @@ const props = defineProps({
   slug: {
     type: String,
     required: true,
-  }
+  },
 });
 
 // State for showing more lessons
@@ -56,12 +56,19 @@ const toggleOpen = () => {
           Chưa có bài học nào !
         </div>
         <div v-else class="mx-auto w-full">
-          <div class="border border-color-border rounded-lg mb-3">
+          <div
+            class="border border-color-border rounded-md overflow-hidden mb-3"
+          >
             <div class="py-2 px-4 bg-white">
               <div
                 v-for="(lesson, index) in displayedLessons"
                 :key="index"
-                class="grid grid-cols-2 max-lg:grid-cols-1 border-b border-color-border-2 py-3 relative group"
+                :class="[
+                  'grid grid-cols-2 max-lg:grid-cols-1 py-3 relative group',
+                  index !== displayedLessons.length - 1
+                    ? 'border-b border-color-border-2'
+                    : '',
+                ]"
               >
                 <div class="flex items-center gap-2 max-lg:w-full">
                   <!-- Conditionally render icon based on lesson.inCourse and process -->
@@ -82,7 +89,7 @@ const toggleOpen = () => {
                 <!-- "Học tiếp" button for the next lesson -->
                 <div
                   v-if="lesson?.inCourse === process + 1"
-                  class="flex items-center gap-5 justify-end max-lg:mt-1 max-lg:justify-between"
+                  class="absolute inset-0 flex items-center justify-end transition-opacity max-lg:mt-1"
                 >
                   <router-link
                     :to="{
@@ -92,7 +99,6 @@ const toggleOpen = () => {
                         id: lesson.id,
                       },
                     }"
-                    class="max-lg:order-2"
                   >
                     <button
                       class="px-4 py-[5px] bg-color-primary-2 rounded-lg text-white text-sm w-full"
@@ -105,7 +111,7 @@ const toggleOpen = () => {
                 <!-- "Học lại" button for completed lessons on hover -->
                 <div
                   v-if="lesson.inCourse <= process"
-                  class="absolute inset-0 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity max-lg:mt-1 max-lg:justify-between"
+                  class="absolute inset-0 flex items-center justify-end transition-opacity max-lg:mt-1"
                 >
                   <router-link
                     :to="{

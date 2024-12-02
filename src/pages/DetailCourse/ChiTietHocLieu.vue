@@ -37,11 +37,10 @@
         </div>
       </div>
       <Lesson :lessons="lessonsData" :process="courseDetail" :slug="slugs" />
-
-      
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import Breadcrumb from "@/components/global/Breadcrumb.vue";
@@ -77,20 +76,27 @@ export default {
   async mounted() {
     await this.fetchData();
   },
+  watch: {
+    // Theo dõi sự thay đổi của id trong route
+    "$route.params.id": {
+      handler() {
+        this.fetchData(); // Gọi lại API khi id thay đổi
+      },
+      immediate: true, // Gọi ngay lần đầu
+    },
+  },
   methods: {
     async fetchData() {
       const { slug, id } = this.$route.params;
 
+      this.loading = true;
       try {
-        const [lessonDetailResponse, courseResponse, lessonsResponse] =
-          await Promise.all([
-            axios.get(`/material/lesson/${slug}/${id}`),
-            axios.get(`/course/${slug}`),
-            axios.get(`/material/list-lesson/${slug}`),
-          ]);
-
-        // Cập nhật dữ liệu bài học chi tiết
+        // Gọi API chi tiết bài học
+        const lessonDetailResponse = await axios.get(
+          `/material/lesson/${slug}/${id}`
+        );
         const lessonDetail = lessonDetailResponse.data.data;
+
         this.detail = {
           name: lessonDetail.name,
           createDate: new Date(lessonDetail.createdAt).toLocaleDateString(
@@ -100,8 +106,14 @@ export default {
           context: "http://localhost:5000/videos/" + lessonDetail.context,
         };
 
+        // Gọi API chi tiết khóa học (sau khi gọi xong API chi tiết bài học)
+        const courseResponse = await axios.get(`/course/${slug}`);
         this.courseDetail = courseResponse.data.data.process;
 
+        // Gọi API danh sách bài học (sau khi gọi xong API chi tiết khóa học)
+        const lessonsResponse = await axios.get(
+          `/material/list-lesson/${slug}`
+        );
         this.lessonsData = lessonsResponse.data.data.lessons;
       } catch (error) {
         this.error = error.message;

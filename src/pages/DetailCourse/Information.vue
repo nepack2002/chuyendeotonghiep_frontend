@@ -58,13 +58,14 @@ const open = ref(false);
 
     <div class="py-3 max-md:text-center">
       <button
-        v-if="course.process"
+        v-if="course.process >= 0"
         class="px-4 py-10px bg-[#005ED3] rounded-lg text-white text-sm w-full"
       >
         Bạn đã đăng ký khóa học
       </button>
       <button
         v-else-if="course.type === 0"
+        @click="this.$emit('register')"
         class="px-4 py-10px bg-[#28a745] rounded-lg text-white text-sm w-full"
       >
         Đăng ký học

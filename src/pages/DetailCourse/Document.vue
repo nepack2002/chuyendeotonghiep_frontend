@@ -9,7 +9,7 @@ const props = defineProps({
   course: {
     type: Array,
     required: true,
-  }
+  },
 });
 
 // State for showing more documents
@@ -63,18 +63,28 @@ const downloadFile = async (context: string) => {
 
       <div class="w-full mt-5">
         <!-- Hiển thị thông báo nếu không có tài liệu -->
-        <div v-if="props.documents?.length === 0" class="text-center text-color-gray text-sm italic">
+        <div
+          v-if="props.documents?.length === 0"
+          class="text-center text-color-gray text-sm italic"
+        >
           Chưa có tài liệu nào !
         </div>
 
         <!-- Hiển thị danh sách tài liệu nếu có -->
         <div v-else class="mx-auto w-full">
-          <div class="border border-color-border rounded-lg mb-3">
+          <div
+            class="border border-color-border rounded-lg overflow-hidden mb-3"
+          >
             <div class="py-2 px-4 bg-white">
               <div
-                v-for="document in displayedDocuments"
+                v-for="(document, index) in displayedDocuments"
                 :key="document.id"
-                class="flex border-b border-color-border-2 py-3 relative group"
+                :class="[
+                  'grid grid-cols-2 max-lg:grid-cols-1 py-3 relative group',
+                  index !== displayedDocuments.length - 1
+                    ? 'border-b border-color-border-2'
+                    : '',
+                ]"
               >
                 <div class="flex items-center gap-2 max-lg:w-full">
                   <img
@@ -89,19 +99,18 @@ const downloadFile = async (context: string) => {
 
                 <!-- "Tải xuống" button chỉ hiển thị khi có trường context -->
                 <div
-                  v-if="document.context && course.process"
-                  class="absolute inset-0 flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity max-lg:mt-1 max-lg:justify-between"
+                  v-if="document.context"
+                  class="absolute inset-0 flex items-center justify-end transition-opacity max-lg:mt-1"
                 >
                   <div class="max-lg:order-2">
                     <button
-                   
                       @click="downloadFile(document.context)"
                       class="px-4 py-[5px] bg-color-primary-2 rounded-lg text-white text-sm flex gap-2 items-center"
                     >
                       <img
                         src="@/assets/images/import.svg"
                         alt="Icon"
-                        class="max-md:h-3"
+                        class="max-md:h-3 max-md:hidden"
                       />
                       <p class="text-base text-color-white max-lg:text-sm">
                         Tải xuống

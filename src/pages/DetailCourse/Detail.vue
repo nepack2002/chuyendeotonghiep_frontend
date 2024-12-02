@@ -51,14 +51,15 @@ export default {
     };
   },
   methods: {
-  async register(){
-    try {
-      await axios.post(`course/register/${this.slug}`);
-      alert("Đăng ký thành công!");
-    } catch (error) {
-      console.error("Có lỗi xảy ra khi đăng ký:", error);
-    }
-  },
+    async register() {
+      try {
+        await axios.post(`course/register/${this.slug}`);
+        alert("Đăng ký thành công!");
+        window.location.reload();
+      } catch (error) {
+        console.error("Có lỗi xảy ra khi đăng ký:", error);
+      }
+    },
     async handleSubmitReview(review) {
       try {
         await axios.post(`/course/review/${this.slug}`, {
