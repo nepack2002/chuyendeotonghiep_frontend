@@ -14,9 +14,9 @@
         <div class="flex items-center gap-3 py-2">
           <p class="text-color-gray text-sm max-lg:text-sm">(Chọn 1 đáp án)</p>
         </div>
-        <!-- Hiển thị câu trả lời mặc định: Đúng và Sai -->
+        <!-- Hiển thị 5 lựa chọn từ Không đồng ý đến Đồng ý -->
         <div
-          v-for="(answer, idx) in ['Đúng', 'Sai']"
+          v-for="(answer, idx) in ['Không đồng ý', 'Hơi không đồng ý', 'Trung lập', 'Hơi đồng ý', 'Đồng ý']"
           :key="idx"
           class="flex items-center gap-3 py-1"
         >
@@ -38,6 +38,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   props: {

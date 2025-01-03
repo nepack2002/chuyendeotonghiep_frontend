@@ -8,17 +8,27 @@
           >
             <p class="text-color-text-breakcurmb font-normal">Trang chủ</p>
             <img src="@/assets/images/arrow-square-right.svg" alt="Icon" />
-            <p class="text-[#fff] font-medium">KnowLedge</p>
+            <p class="text-[#fff] font-medium">Khảo sát</p>
           </div>
           <div>
             <p
               class="text-font24px font-bold text-white max-md:text-font20lh max-md:mb-3"
             >
-              KnowLedge
+              Khảo sát
             </p>
           </div>
           <div class="md:py-6 w-4/6 max-md:w-full max-md:mb-[18px]">
-           
+            <!-- Thanh tìm kiếm -->
+            <div class="relative mt-4">
+              <input
+                type="text"
+                v-model="searchQuery"
+                @input="handleSearch"
+                placeholder="Tìm kiếm khảo sát..."
+                class="w-full px-4 py-2 text-sm text-gray-800 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              
+            </div>
           </div>
         </div>
         <div>
@@ -40,6 +50,7 @@
 
   <router-view></router-view>
 </template>
+
 <script>
 export default {
   data() {
@@ -50,6 +61,8 @@ export default {
   methods: {
     handleSearch() {
       this.$emit("searchQuery", this.searchQuery);
+      // Xử lý logic tìm kiếm ở đây nếu cần
+      console.log("Tìm kiếm:", this.searchQuery);
     },
   },
 };

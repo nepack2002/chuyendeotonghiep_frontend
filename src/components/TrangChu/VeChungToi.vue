@@ -10,8 +10,11 @@
         <p
           class="text-xl font-normal text-color-text-1 max-md:text-font14 max-w-[750px] mx-auto"
         >
-          Hệ thống phần mềm hỗ trợ học trực tuyến VNPT E-Learning (hay tên gọi
-          khác là vnEdu-LMS)
+          Đại học Thăng Long là một trung tâm giáo dục đa ngành, đa nghề, định
+          hướng ứng dụng; với mô hình đào tạo - học tập cập nhật theo môi trường
+          làm việc thực tế. Với niềm tâm huyết của những nhà thiết kế giáo dục,
+          chúng tôi cam kết xây dựng một môi trường giáo dục tốt nhất, cập nhật
+          nhất dành cho sinh viên.
         </p>
       </div>
       <div

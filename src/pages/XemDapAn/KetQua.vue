@@ -121,10 +121,10 @@ export default {
       const id = this.$route.params.id;
       const response = await axios.get(`/exam/detail-result/${id}`);
       const data = response.data.data;
-
+      console.log(data);
       // Cập nhật dữ liệu từ API
-      this.score = data.correctAns * 1; // ví dụ tính điểm
-      this.status = data.correctAns >= 10 ? "Đạt" : "Chưa đạt"; // điều kiện đạt/chưa đạt
+      this.score = data.point; // ví dụ tính điểm
+      this.status = data.isPass ? "Đạt" : "Chưa đạt"; // điều kiện đạt/chưa đạt
       this.correctAnswers = data.correctAns;
       this.totalQuestions = data.detailResult.length;
       this.createdAt = data.createdAt;
@@ -164,7 +164,7 @@ export default {
   },
   computed: {
     scoreClass() {
-      return this.score >= 50
+      return this.status
         ? "bg-color-green text-white"
         : "bg-color-red text-white";
     },

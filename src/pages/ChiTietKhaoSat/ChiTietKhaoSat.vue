@@ -82,11 +82,22 @@ export default {
       }
     },
     updateAnswer({ index, answer }) {
-      const isCorrect = answer === "Đúng";
+      // Mapping các lựa chọn từ text sang số
+      const answerMapping = {
+        "Không đồng ý": 1,
+        "Hơi không đồng ý": 2,
+        "Trung lập": 3,
+        "Hơi đồng ý": 4,
+        "Đồng ý": 5,
+      };
+
+      // Tìm giá trị số tương ứng với đáp án
+      const answerValue = answerMapping[answer] || 0;
+
       // Cập nhật trực tiếp mảng answers
       this.answers[index] = {
         id: this.questions[index].id,
-        answer: isCorrect,
+        answer: answerValue,
       };
     },
     async submitAnswers() {
@@ -96,7 +107,6 @@ export default {
       ) {
         this.openThongBao = false; // Đảm bảo popup thông báo chính đóng lại
         this.openYeuCauLam = true; // Mở popup yêu cầu làm
-        return;
         return;
       }
 

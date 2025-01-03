@@ -75,12 +75,12 @@ const open = ref(false);
           <td
             class="p-2 font-semibold text-center"
             :class="
-              result.correctAns > examResult
+              result.isPass
                 ? 'text-color-greend-2'
                 : 'text-color-red'
             "
           >
-            <p v-if="result.correctAns > examResult">Đạt</p>
+            <p v-if="result.isPass">Đạt</p>
             <p v-else>Chưa đạt</p>
           </td>
           <td class="p-2">

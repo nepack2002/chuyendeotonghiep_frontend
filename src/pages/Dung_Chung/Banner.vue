@@ -47,32 +47,8 @@
     </div>
     <div class="bg-custom-gradient-banner max-md:hidden">
       <div
-        class="grid grid-cols-3 px-120px max-lg:px-[50px] max-md:px-[20px] max-md:grid-cols-3"
+        class="grid grid-cols-2 px-120px max-lg:px-[50px] max-md:px-[20px] max-md:grid-cols-3"
       >
-        <!-- <div class="py-3 max-lg:py-2">
-          <div class="text-center">
-            <img
-              src="@/assets/images/CalendarCheck.svg"
-              alt="Image"
-              class="mx-auto h-8 w-auto max-lg:h-5"
-            />
-            <p class="text-lg font-medium text-white max-lg:text-sm">
-              Kế hoạch đào tạo
-            </p>
-          </div>
-        </div> -->
-        <!-- <div class="py-3 max-lg:py-2">
-          <div class="text-center border-l border-color-border">
-            <img
-              src="@/assets/images/GraduationCap.svg"
-              alt="Image"
-              class="mx-auto h-8 w-auto max-lg:h-5"
-            />
-            <p class="text-lg font-medium text-white max-lg:text-sm">
-              Lộ trình công danh
-            </p>
-          </div>
-        </div> -->
         <router-link
           :to="{ name: 'Course' }"
           class="py-3 max-lg:py-2 text-[#fff]"
@@ -89,10 +65,10 @@
         </router-link>
         <router-link
           :to="{ name: 'Competision' }"
-          class="py-3 max-lg:py-2 text-[#fff]"
+            class="py-3 max-lg:py-2 text-[#fff]"
           active-class="bg-[#fff] text-color-primary-2"
         >
-          <div class="text-center" :class="isCompetisionActive ? 'border-none' : ''">
+          <div class="text-center border-x border-color-border" :class="isCompetisionActive ? 'border-none' : ''">
             <img
               :src="
                 isCompetisionActive ? competisionActiveIcon : competisionIcon
@@ -103,7 +79,7 @@
             <p class="text-lg font-semibold max-lg:text-sm">Cuộc thi</p>
           </div>
         </router-link>
-        <router-link
+        <!-- <router-link
           :to="{ name: 'TaiLieu' }"
           class="py-3 max-lg:py-2 text-[#fff]"
           active-class="bg-[#fff] text-color-primary-2"
@@ -116,7 +92,7 @@
             />
             <p class="text-lg font-semibold max-lg:text-sm">Tài liệu</p>
           </div>
-        </router-link>
+        </router-link> -->
         <!-- <div class="py-3 max-lg:py-2">
           <div class="text-center border-l border-color-border">
             <img

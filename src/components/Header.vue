@@ -10,13 +10,9 @@
               <img
                 src="@/assets/images/Logo.svg"
                 alt="Logo"
-                class="h-8 w-auto max-lg:hidden"
+                class="h-8 w-auto"
               />
-              <img
-                src="@/assets/images/LogoMobile.svg"
-                alt="Logo"
-                class="w-auto lg:hidden"
-              />
+              
             </RouterLink>
           </div>
           <div class="col-span-5 max-lg:hidden">

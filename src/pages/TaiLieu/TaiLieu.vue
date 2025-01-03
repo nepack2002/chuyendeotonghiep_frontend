@@ -9,8 +9,8 @@ const documents = ref([]);
 // Hàm gọi API để lấy dữ liệu
 const fetchDocuments = async () => {
   try {
-    const response = await axios.get("/material/list-document/tin-dai-cuong-");
-    documents.value = response.data.data.docs; // Gán dữ liệu vào biến documents
+    const response = await axios.get("/material/list-document/");
+    documents.value = response.data.data.docs;
   } catch (error) {
     console.error("Error fetching documents:", error);
   }

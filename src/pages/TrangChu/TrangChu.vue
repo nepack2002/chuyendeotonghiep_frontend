@@ -25,7 +25,7 @@
   
     <CauNoiNoiTieng />
   
-    <DangKiThamGia />
+    <!-- <DangKiThamGia /> -->
   
 </template>
   
