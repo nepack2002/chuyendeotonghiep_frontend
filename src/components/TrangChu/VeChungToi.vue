@@ -10,7 +10,7 @@
         <p
           class="text-xl font-normal text-color-text-1 max-md:text-font14 max-w-[750px] mx-auto"
         >
-          Đại học Thăng Long là một trung tâm giáo dục đa ngành, đa nghề, định
+          Đại học Công nghệ giao thông vận tải là một trung tâm giáo dục đa ngành, đa nghề, định
           hướng ứng dụng; với mô hình đào tạo - học tập cập nhật theo môi trường
           làm việc thực tế. Với niềm tâm huyết của những nhà thiết kế giáo dục,
           chúng tôi cam kết xây dựng một môi trường giáo dục tốt nhất, cập nhật

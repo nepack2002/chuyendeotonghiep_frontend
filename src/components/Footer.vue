@@ -4,13 +4,13 @@
       <div class="container mx-auto">
         <div class="lg:grid lg:grid-cols-12">
           <div class="col-span-5">
-            <div class="mb-8 max-lg:mb-5">
-              <img
-                src="@/assets/images/LogoFooter.svg"
-                alt="Logo"
-                class="h-9 w-auto max-lg:w-[100px] max-lg:h-[31px]"
-              />
-            </div>
+<!--            <div class="mb-8 max-lg:mb-5">-->
+<!--              <img-->
+<!--                src="@/assets/images/LogoFooter.svg"-->
+<!--                alt="Logo"-->
+<!--                class="h-9 w-auto max-lg:w-[100px] max-lg:h-[31px]"-->
+<!--              />-->
+<!--            </div>-->
             <div>
               <div class="flex mb-4 max-lg:mb-3">
                 <img
@@ -19,7 +19,7 @@
                   class="h-6"
                 />
                 <p class="text-sm text-white font-normal ml-2">
-                  Nghiêm Xuân Yêm - Đại Kim - Hoàng Mai - Hà Nội
+                  Triều Khúc - Hoàng Mai - Hà Nội
                 </p>
               </div>
               <div class="flex mb-4 max-lg:mb-3">
@@ -35,7 +35,7 @@
               <div class="flex mb-4 max-lg:mb-[22px]">
                 <img src="../assets/images/Outline.png" alt="" class="h-6" />
                 <p class="text-sm text-white font-normal ml-2">
-                  info@thanglong.edu.vn
+                  info@congnghegiaothongvantai.edu.vn
                 </p>
               </div>
             </div>
@@ -124,7 +124,7 @@
     <div
       class="flex text-[#8F8F8F] text-xs leading-[22px] font-medium items-center justify-center py-4 max-lg:py-2"
     >
-      © 2024 TLU. Đã đăng ký bản quyền.
+      © 2024 CNGTVT. Đã đăng ký bản quyền.
     </div>
   </div>
 </template>

@@ -6,14 +6,13 @@
           class="grid grid-cols-10 gap-3 max-lg:flex max-lg:justify-between items-center"
         >
           <div class="col-span-2 flex items-center justify-center">
-            <RouterLink to="/">
-              <img
-                src="@/assets/images/Logo.svg"
-                alt="Logo"
-                class="h-8 w-auto"
-              />
-              
-            </RouterLink>
+<!--            <RouterLink to="/">-->
+<!--              <img-->
+<!--                src="@/assets/images/Logo.svg"-->
+<!--                alt="Logo"-->
+<!--                class="h-8 w-auto"-->
+<!--              />-->
+<!--            </RouterLink>-->
           </div>
           <div class="col-span-5 max-lg:hidden">
             <ul
@@ -79,7 +78,12 @@
             </div> -->
             <div class="flex items-center gap-1 relative" v-if="user">
               <div class="max-w-10 max-h-10 overflow-hidden rounded-full max-sm:max-h-6">
-                <img :src="userAvatar" alt="Avatar" />
+<!--                <img :src="userAvatar" alt="Avatar" />-->
+                <img
+                  src="@/assets/images/A37873_NguyenLeBach.jpg"
+                  alt="Group"
+                  class="w-10 h-10 rounded-md max-sm:h-4"
+                />
               </div>
               <Popover class="relative" v-slot="{ close }">
                 <PopoverButton class="flex gap-1 items-center outline-none">

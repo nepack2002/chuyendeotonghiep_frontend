@@ -3,7 +3,7 @@
     <div
       class="flex flex-col items-center w-full max-w-md bg-white shadow-lg rounded-lg p-8"
     >
-      <img src="@/assets/images/Logo.svg" class="h-[40px] w-auto mb-8" />
+<!--      <img src="@/assets/images/Logo.svg" class="h-[40px] w-auto mb-8" />-->
       <p class="font-semibold text-2xl mb-6 text-center">Đăng nhập</p>
       <div class="w-full mb-4">
         <label for="email" class="block text-sm font-medium mb-1">Email</label>
