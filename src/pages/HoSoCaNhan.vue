@@ -149,7 +149,7 @@
           >
             <div class="mx-[10px]">
               <img
-                :src="userAvatar"
+                src="@/assets/images/A37873_NguyenLeBach.jpg"
                 alt="img"
                 class="max-h-[180px] max-w-[180px] min-w-[180px] rounded-full ob object-cover shadow-[0_7px_8px_1px_rgba(142,142,142,0.08)]"
               />
